@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react'
+﻿import { useEffect, useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
 import {
   defaultPublicSiteContent,
@@ -21,7 +21,7 @@ export default function PublicSiteAdminPage() {
   const [savedSnapshot, setSavedSnapshot] = useState(() => JSON.stringify(getPublicSiteContent()))
   const [status, setStatus] = useState(() => (
     window.localStorage.getItem(PUBLIC_SITE_PENDING_KEY) === '1'
-      ? '目前瀏覽器有尚未發布到資料庫的草稿。請重新登入高權限帳號後按「儲存內容」發布。'
+      ? '目前瀏覽器有尚未發布到資料庫的草稿請重新登入高權限帳號後按「儲存內容」發布'
       : ''
   ))
   const [activeTab, setActiveTab] = useState('home')
@@ -105,7 +105,7 @@ export default function PublicSiteAdminPage() {
   const uploadPublicModel = (index, file) => {
     if (!file) return
     if (!file.name.toLowerCase().endsWith('.stl')) {
-      setStatus('目前公開 3D 展示先支援 STL 檔案，請選擇 .stl。')
+      setStatus('目前公開 3D 展示先支援 STL 檔案，請選擇 .stl')
       return
     }
 
@@ -113,16 +113,16 @@ export default function PublicSiteAdminPage() {
     reader.onload = () => {
       updatePublicModel(index, 'modelUrl', reader.result)
       updatePublicModel(index, 'fileName', file.name)
-      setStatus(`已載入公開展示模型：${file.name}。請按「儲存內容」發布。`)
+      setStatus(`已載入公開展示模型：${file.name}請按「儲存內容」發布`)
     }
-    reader.onerror = () => setStatus('模型檔案讀取失敗，請重新選擇。')
+    reader.onerror = () => setStatus('模型檔案讀取失敗，請重新選擇')
     reader.readAsDataURL(file)
   }
 
   const uploadPublicGalleryImage = (index, file) => {
     if (!file) return
     if (!file.type.startsWith('image/')) {
-      setStatus('靜態展示圖片請上傳圖片檔，例如 PNG、JPG、WEBP 或 SVG。')
+      setStatus('靜態展示圖片請上傳圖片檔，例如 PNG、JPG、WEBP 或 SVG')
       return
     }
 
@@ -130,32 +130,32 @@ export default function PublicSiteAdminPage() {
     reader.onload = () => {
       updatePublicImage(index, 'imageUrl', reader.result)
       updatePublicImage(index, 'imageAlt', file.name)
-      setStatus(`已載入靜態展示圖片：${file.name}。請按「儲存內容」發布。`)
+      setStatus(`已載入靜態展示圖片：${file.name}請按「儲存內容」發布`)
     }
-    reader.onerror = () => setStatus('靜態展示圖片讀取失敗，請重新選擇。')
+    reader.onerror = () => setStatus('靜態展示圖片讀取失敗，請重新選擇')
     reader.readAsDataURL(file)
   }
 
   const uploadLogo = (file) => {
     if (!file) return
     if (!file.type.startsWith('image/')) {
-      setStatus('Logo 請上傳圖片檔，例如 PNG、JPG、WEBP 或 SVG。')
+      setStatus('Logo 請上傳圖片檔，例如 PNG、JPG、WEBP 或 SVG')
       return
     }
 
     const reader = new FileReader()
     reader.onload = () => {
       setDraft((current) => ({ ...current, logoUrl: reader.result, logoAlt: file.name }))
-      setStatus(`已載入 Logo：${file.name}。請按「儲存內容」發布。`)
+      setStatus(`已載入 Logo：${file.name}請按「儲存內容」發布`)
     }
-    reader.onerror = () => setStatus('Logo 圖片讀取失敗，請重新選擇。')
+    reader.onerror = () => setStatus('Logo 圖片讀取失敗，請重新選擇')
     reader.readAsDataURL(file)
   }
 
   const uploadLandingImage = (file) => {
     if (!file) return
     if (!file.type.startsWith('image/')) {
-      setStatus('首頁主視覺請上傳圖片檔，例如 PNG、JPG、WEBP 或 SVG。')
+      setStatus('首頁主視覺請上傳圖片檔，例如 PNG、JPG、WEBP 或 SVG')
       return
     }
 
@@ -163,16 +163,16 @@ export default function PublicSiteAdminPage() {
     reader.onload = () => {
       updateLanding('heroImageUrl', reader.result)
       updateLanding('heroImageAlt', file.name)
-      setStatus(`已載入首頁主視覺：${file.name}。請按「儲存內容」發布。`)
+      setStatus(`已載入首頁主視覺：${file.name}請按「儲存內容」發布`)
     }
-    reader.onerror = () => setStatus('首頁主視覺圖片讀取失敗，請重新選擇。')
+    reader.onerror = () => setStatus('首頁主視覺圖片讀取失敗，請重新選擇')
     reader.readAsDataURL(file)
   }
 
   const uploadCustomSectionImage = (index, file) => {
     if (!file) return
     if (!file.type.startsWith('image/')) {
-      setStatus('模塊圖片請上傳圖片檔，例如 PNG、JPG、WEBP 或 SVG。')
+      setStatus('模塊圖片請上傳圖片檔，例如 PNG、JPG、WEBP 或 SVG')
       return
     }
 
@@ -180,9 +180,9 @@ export default function PublicSiteAdminPage() {
     reader.onload = () => {
       updateCustomSection(index, 'imageUrl', reader.result)
       updateCustomSection(index, 'layout', 'image')
-      setStatus(`已載入模塊圖片：${file.name}。請按「儲存內容」發布。`)
+      setStatus(`已載入模塊圖片：${file.name}請按「儲存內容」發布`)
     }
-    reader.onerror = () => setStatus('模塊圖片讀取失敗，請重新選擇。')
+    reader.onerror = () => setStatus('模塊圖片讀取失敗，請重新選擇')
     reader.readAsDataURL(file)
   }
 
@@ -195,7 +195,7 @@ export default function PublicSiteAdminPage() {
           id: `section-${Date.now()}`,
           kicker: 'New Module',
           title: '新的官網模塊',
-          text: '請在這裡填入對外可公開的概念性說明。',
+          text: '請在這裡填入對外可公開的概念性說明',
           imageUrl: '',
           layout: 'text'
         }
@@ -211,7 +211,7 @@ export default function PublicSiteAdminPage() {
         {
           id: `gallery-${Date.now()}`,
           title: '新的靜態圖片展示',
-          text: '請填入對外可公開的圖片說明，不要放入內部專案參數。',
+          text: '請填入對外可公開的圖片說明，不要放入內部專案參數',
           imageUrl: '',
           imageAlt: '公開靜態展示圖片'
         }
@@ -242,12 +242,12 @@ export default function PublicSiteAdminPage() {
       setDraft(serverContent)
       setJsonText(JSON.stringify(serverContent, null, 2))
       setSavedSnapshot(JSON.stringify(serverContent))
-      setStatus('已儲存公開官網內容，Safari 與其他瀏覽器重新整理後也會看到同一版。')
+      setStatus('已儲存公開官網內容，Safari 與其他瀏覽器重新整理後也會看到同一版')
     } catch (error) {
       const statusCode = error?.response?.status
       const nextMessage = statusCode === 401 || statusCode === 403
-        ? '資料庫儲存失敗：登入權限已過期或不是高權限帳號。請重新登入後再儲存。'
-        : '資料庫儲存失敗，已先嘗試儲存在目前瀏覽器。請確認後端 API 有啟動。'
+        ? '資料庫儲存失敗：登入權限已過期或不是高權限帳號請重新登入後再儲存'
+        : '資料庫儲存失敗，已先嘗試儲存在目前瀏覽器請確認後端 API 有啟動'
       setStatus(nextMessage)
       savePublicSiteContent(nextDraft)
       window.localStorage.setItem(PUBLIC_SITE_PENDING_KEY, '1')
@@ -264,7 +264,7 @@ export default function PublicSiteAdminPage() {
     setDraft(defaultPublicSiteContent)
     setJsonText(JSON.stringify(defaultPublicSiteContent, null, 2))
     setSavedSnapshot(JSON.stringify(defaultPublicSiteContent))
-    setStatus('已恢復預設內容。')
+    setStatus('已恢復預設內容')
   }
 
   const saveJson = () => {
@@ -272,7 +272,7 @@ export default function PublicSiteAdminPage() {
       const parsed = JSON.parse(jsonText)
       void save(parsed)
     } catch {
-      setStatus('JSON 格式有誤，請確認括號、逗號與引號。')
+      setStatus('JSON 格式有誤，請確認括號、逗號與引號')
     }
   }
 
@@ -295,8 +295,8 @@ export default function PublicSiteAdminPage() {
         <strong>登入角色：{roleLabel}</strong>
         {isDirty && <strong className="dirty-indicator">尚未儲存變更</strong>}
         <span>
-          這個後台只開放高權限帳號，且不會出現在公開網站導覽列。請只編輯對外可公開的概念性內容，不要放入材料參數、STL
-          版本、BOM 成本、報告或稽核紀錄。
+          這個後台只開放高權限帳號，且不會出現在公開網站導覽列請只編輯對外可公開的概念性內容，不要放入材料參數、STL
+          版本、BOM 成本、報告或稽核紀錄
         </span>
       </section>
 
@@ -337,7 +337,7 @@ export default function PublicSiteAdminPage() {
                   <span className="file-upload-control">
                     <input type="file" accept="image/*" onChange={(event) => uploadLandingImage(event.target.files?.[0])} />
                   </span>
-                  <span className="admin-helper">上傳後會取代官網首頁右側主視覺；記得按「儲存內容」才會發布到其他瀏覽器。</span>
+                  <span className="admin-helper">上傳後會取代官網首頁右側主視覺；記得按「儲存內容」才會發布到其他瀏覽器</span>
                 </label>
                 <TextInput label="Hero 照片 URL" value={draft.landing.heroImageUrl} onChange={(value) => updateLanding('heroImageUrl', value)} />
                 <TextInput label="Hero 照片替代文字" value={draft.landing.heroImageAlt} onChange={(value) => updateLanding('heroImageAlt', value)} />
@@ -374,7 +374,7 @@ export default function PublicSiteAdminPage() {
                 <TextInput label="3D 區塊標題" value={draft.landing.public3dTitle} onChange={(value) => updateLanding('public3dTitle', value)} />
                 <TextArea label="3D 區塊說明" value={draft.landing.public3dIntro} onChange={(value) => updateLanding('public3dIntro', value)} />
                 <p className="admin-helper">
-                  每一個模型卡片都可以維持預設概念幾何，也可以指定公開展示用 STL。這裡不要上傳內部專案的敏感版本檔。
+                  每一個模型卡片都可以維持預設概念幾何，也可以指定公開展示用 STL這裡不要上傳內部專案的敏感版本檔
                 </p>
                 <div className="module-list">
                   {draft.publicConceptModels.map((model, index) => (
@@ -410,7 +410,7 @@ export default function PublicSiteAdminPage() {
                 <TextInput label="靜態圖片展示標題" value={draft.landing.imageGalleryTitle || ''} onChange={(value) => updateLanding('imageGalleryTitle', value)} />
                 <TextArea label="靜態圖片展示說明" value={draft.landing.imageGalleryIntro || ''} onChange={(value) => updateLanding('imageGalleryIntro', value)} />
                 <p className="admin-helper">
-                  這裡會顯示在官網 3D 展示下方。可用來放產品照片、應用情境圖或合作流程圖，但不要放內部專案參數、報告或敏感模型截圖。
+                  這裡會顯示在官網 3D 展示下方可用來放產品照片、應用情境圖或合作流程圖，但不要放內部專案參數、報告或敏感模型截圖
                 </p>
                 <div className="module-list">
                   {getPublicImages(draft).map((image, index) => (
@@ -555,7 +555,7 @@ export default function PublicSiteAdminPage() {
           {activeTab === 'modules' && (
             <EditorPanel title="官網自訂模塊">
               <p className="admin-helper">
-                這裡會顯示在官網首頁的合作流程下方、帳號申請上方。可以新增、刪除公開官網上的額外內容模塊。
+                這裡會顯示在官網首頁的合作流程下方、帳號申請上方可以新增、刪除公開官網上的額外內容模塊
               </p>
               <div className="module-list">
                 {getCustomSections(draft).map((section, index) => (
@@ -599,7 +599,7 @@ export default function PublicSiteAdminPage() {
           {activeTab === 'advanced' && (
             <EditorPanel title="進階 JSON 編輯">
               <p className="admin-helper">
-                進階模式可一次編輯所有公開網站內容。這裡儲存的是前端內容設定；未來若接資料庫 API，可以沿用同一份 JSON 結構。
+                進階模式可一次編輯所有公開網站內容這裡儲存的是前端內容設定；未來若接資料庫 API，可以沿用同一份 JSON 結構
               </p>
               <textarea className="json-editor" value={jsonText} onChange={(event) => setJsonText(event.target.value)} rows="18" spellCheck="false" />
               <div className="admin-actions">
@@ -612,7 +612,7 @@ export default function PublicSiteAdminPage() {
 
         <aside className="admin-save-panel">
           <h2>發布控制</h2>
-          <p>儲存後，公開首頁與加入我們頁會從後端資料庫讀取同一份內容，Safari、Chrome 和其他瀏覽器重新整理後都會同步。</p>
+          <p>儲存後，公開首頁與加入我們頁會從後端資料庫讀取同一份內容，Safari、Chrome 和其他瀏覽器重新整理後都會同步</p>
           <div className="admin-actions vertical">
             <button type="button" onClick={() => void save()}>儲存內容</button>
             <button type="button" className="secondary" onClick={reset}>恢復預設</button>

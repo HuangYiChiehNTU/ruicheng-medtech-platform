@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react'
+﻿import { useCallback, useEffect, useState } from 'react'
 import api from '../api/client'
 
 const ACTION_COLORS = {
@@ -78,7 +78,7 @@ export default function AuditPanel({ compact = false }) {
           <button onClick={() => download('pdf')} style={buttonStyle}>匯出 PDF</button>
         </div>
         <div style={{ display: 'grid', gap: 8, maxHeight: compact ? 360 : 580, overflowY: 'auto', paddingRight: 6, scrollbarColor: '#475569 #0f172a' }}>
-          {logs.length === 0 ? <p style={{ color: '#64748b' }}>目前沒有稽核紀錄。</p> : logs.map((log) => (
+          {logs.length === 0 ? <p style={{ color: '#64748b' }}>目前沒有稽核紀錄</p> : logs.map((log) => (
             <button
               key={log.log_id}
               onClick={() => setSelected(log)}
@@ -107,7 +107,7 @@ export default function AuditPanel({ compact = false }) {
       {!compact && (
         <div style={{ background: '#0f172a', border: '1px solid #334155', borderRadius: 8, padding: 16, minHeight: 300 }}>
           {!selected ? (
-            <p style={{ color: '#64748b' }}>選擇一筆稽核紀錄檢視異動前後內容。</p>
+            <p style={{ color: '#64748b' }}>選擇一筆稽核紀錄檢視異動前後內容</p>
           ) : (
             <>
               <h3 style={{ marginBottom: 8 }}>稽核 #{selected.log_id}</h3>

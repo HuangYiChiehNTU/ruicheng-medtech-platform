@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from 'react'
+﻿import { useCallback, useEffect, useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
 import api from '../api/client'
 
@@ -111,13 +111,13 @@ export default function ProductOrderPage() {
         <section className="order-hero">
           <p>Product Order</p>
           <h1>簡單三步驟，送出產品訂購需求</h1>
-          <span>選產品、選數量、留下電話。我們收到後會由專人確認規格、交期與報價。</span>
+          <span>選產品、選數量、留下電話我們收到後會由專人確認規格、交期與報價</span>
         </section>
 
         {submitted && (
           <section className="order-success" role="status">
             <strong>訂單已送出</strong>
-            <span>我們會用您選擇的聯絡方式確認產品、數量、交期與後續付款或開立報價流程。</span>
+            <span>我們會用您選擇的聯絡方式確認產品、數量、交期與後續付款或開立報價流程</span>
           </section>
         )}
 
@@ -127,7 +127,7 @@ export default function ProductOrderPage() {
               <span>1</span>
               <div>
                 <h2>選擇產品類型</h2>
-                <p>公司可以販售 3D 產品、圖片展示產品，也可以直接販售材料本身。</p>
+                <p>公司可以販售 3D 產品、圖片展示產品，也可以直接販售材料本身</p>
               </div>
             </div>
             <div className="order-type-grid">
@@ -150,11 +150,11 @@ export default function ProductOrderPage() {
               <span>2</span>
               <div>
                 <h2>選擇要訂購的產品</h2>
-                <p>點一下產品卡即可選取。若不確定，選最接近的品項並在備註說明。</p>
+                <p>點一下產品卡即可選取若不確定，選最接近的品項並在備註說明</p>
               </div>
             </div>
             <div className="order-products">
-              {filteredProducts.length === 0 && <div className="order-empty">目前此分類沒有公開可訂購產品。</div>}
+              {filteredProducts.length === 0 && <div className="order-empty">目前此分類沒有公開可訂購產品</div>}
               {filteredProducts.map((product) => (
                 <button
                   key={product.product_id}
@@ -168,7 +168,7 @@ export default function ProductOrderPage() {
                   <div>
                     <span>{TYPE_LABELS[product.product_type] || '3D 產品'}</span>
                     <strong>{product.name}</strong>
-                    <p>{product.senior_note || product.description || '可由專人協助確認產品細節。'}</p>
+                    <p>{product.senior_note || product.description || '可由專人協助確認產品細節'}</p>
                   </div>
                 </button>
               ))}
@@ -176,7 +176,7 @@ export default function ProductOrderPage() {
             <div className="order-quantity">
               <div>
                 <strong>訂購數量</strong>
-                <span>可先填預估數量，專人會再次確認。</span>
+                <span>可先填預估數量，專人會再次確認</span>
               </div>
               <button type="button" onClick={() => adjustQuantity(-1)} aria-label="減少數量">-</button>
               <output>{quantity}</output>
@@ -189,7 +189,7 @@ export default function ProductOrderPage() {
               <span>3</span>
               <div>
                 <h2>留下聯絡資料</h2>
-                <p>電話是必填，Email 可不填。這樣年長使用者也能直接完成訂購。</p>
+                <p>電話是必填，Email 可不填這樣年長使用者也能直接完成訂購</p>
               </div>
             </div>
             <div className="order-form-grid">

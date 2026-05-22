@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react'
+﻿import { useEffect, useMemo, useState } from 'react'
 import api from '../api/client'
 
 const CURRENCIES = {
@@ -35,8 +35,8 @@ export default function BOMPanel({ projectId, versionId }) {
     }
   }, [bom, quote])
 
-  if (!versionId) return <p style={{ color: '#475569', fontSize: 13 }}>請先選擇版本。</p>
-  if (!bom) return <p style={{ color: '#64748b', fontSize: 13 }}>尚無 BOM 資料。</p>
+  if (!versionId) return <p style={{ color: '#475569', fontSize: 13 }}>請先選擇版本</p>
+  if (!bom) return <p style={{ color: '#64748b', fontSize: 13 }}>尚無 BOM 資料</p>
 
   const unitPriceLabel = UNIT_PRICE_LABELS[bom.unit_price_unit] || bom.unit_price_unit || '每克'
   const productRows = [
@@ -89,7 +89,7 @@ export default function BOMPanel({ projectId, versionId }) {
       </div>
 
       <div style={{ padding: 10, borderRadius: 8, background: '#edf4ff', border: '1px solid #c9dafc', color: '#2856c8', fontSize: 12, lineHeight: 1.5 }}>
-        計算規則：STL 體積 mm³ ÷ 1000 = cm³；cm³ × 密度 g/cm³ = 材料重量 g；材料重量 × 單價 = 材料成本。
+        計算規則：STL 體積 mm³ ÷ 1000 = cm³；cm³ × 密度 g/cm³ = 材料重量 g；材料重量 × 單價 = 材料成本
       </div>
 
       <div>

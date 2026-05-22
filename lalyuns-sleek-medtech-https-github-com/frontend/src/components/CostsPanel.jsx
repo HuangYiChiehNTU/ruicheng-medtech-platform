@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react'
+﻿import { useCallback, useEffect, useState } from 'react'
 import api from '../api/client'
 
 const COST_LABELS = { labor: '工時成本', external_sample: '外部打樣' }
@@ -40,7 +40,7 @@ export default function CostsPanel({ projectId, onChanged }) {
         <button style={buttonStyle}>新增</button>
       </form>
       <div style={{ display: 'grid', gap: 8 }}>
-        {costs.length === 0 ? <p style={{ color: '#64748b' }}>目前沒有額外成本。</p> : costs.map((cost) => (
+        {costs.length === 0 ? <p style={{ color: '#64748b' }}>目前沒有額外成本</p> : costs.map((cost) => (
           <div key={cost.cost_id} style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 2fr', gap: 12, padding: 10, background: '#0f172a', borderRadius: 8, border: '1px solid #334155' }}>
             <span>{COST_LABELS[cost.type] || cost.type}</span>
             <strong>${Number(cost.amount).toFixed(2)}</strong>

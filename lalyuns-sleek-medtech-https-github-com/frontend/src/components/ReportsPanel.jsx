@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from 'react'
+﻿import { useCallback, useEffect, useMemo, useState } from 'react'
 import api from '../api/client'
 
 const REPORT_TYPES = [
@@ -124,7 +124,7 @@ export default function ReportsPanel({ projectId, versionId }) {
         </div>
 
         {filteredReports.length === 0 ? (
-          <p style={{ color: '#475569', fontSize: 13 }}>這個分類目前沒有報告。</p>
+          <p style={{ color: '#475569', fontSize: 13 }}>這個分類目前沒有報告</p>
         ) : filteredReports.map((report) => (
           <div key={report.report_id} style={{ display: 'grid', gap: 8, marginBottom: 8, padding: 10, background: preview?.report_id === report.report_id ? '#172554' : '#0f172a', borderRadius: 6, border: '1px solid #334155' }}>
             <div>
@@ -145,7 +145,7 @@ export default function ReportsPanel({ projectId, versionId }) {
           <div style={{ height: '100%', minHeight: 420, display: 'grid', placeItems: 'center', color: '#94a3b8', fontSize: 13, padding: 24, textAlign: 'center' }}>
             <div>
               <strong style={{ color: '#f8fafc' }}>尚未選擇報告</strong>
-              <div style={{ marginTop: 8, lineHeight: 1.5 }}>上傳或點選左側報告後，這裡會顯示預覽。也可先補齊材料測試、檢驗報告與合規文件。</div>
+              <div style={{ marginTop: 8, lineHeight: 1.5 }}>上傳或點選左側報告後，這裡會顯示預覽也可先補齊材料測試、檢驗報告與合規文件</div>
             </div>
           </div>
         ) : (

@@ -1,4 +1,4 @@
-import { lazy, Suspense } from 'react'
+﻿import { lazy, Suspense } from 'react'
 import { BrowserRouter, Routes, Route, Navigate, Link, useLocation } from 'react-router-dom'
 import useAuthStore from './store/authStore'
 
@@ -80,7 +80,7 @@ function PermissionDenied() {
         <p style={{ margin: '0 0 10px', color: '#60a5fa', fontWeight: 800 }}>High Privilege Required</p>
         <h1 style={{ margin: '0 0 12px', fontSize: 32 }}>此後台僅開放高權限帳號</h1>
         <p style={{ margin: '0 0 22px', color: '#94a3b8', lineHeight: 1.7 }}>
-          請使用系統管理員帳號登入，或請管理員調整資料庫中的使用者角色。
+          請使用系統管理員帳號登入，或請管理員調整資料庫中的使用者角色
         </p>
         <Link to="/projects" style={{ color: '#bfdbfe', fontWeight: 700 }}>返回內部系統</Link>
       </div>

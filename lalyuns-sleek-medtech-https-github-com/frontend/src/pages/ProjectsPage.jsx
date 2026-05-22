@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react'
+﻿import { useEffect, useMemo, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import api from '../api/client'
 import useAuthStore from '../store/authStore'
@@ -129,7 +129,7 @@ export default function ProjectsPage() {
         <section className="ops-title-row">
           <div>
             <h1>專案管理</h1>
-            <p>STL 版本、材料證據、醫師回饋、BOM 與稽核紀錄的工作台。</p>
+            <p>STL 版本、材料證據、醫師回饋、BOM 與稽核紀錄的工作台</p>
           </div>
         </section>
 
@@ -180,7 +180,7 @@ export default function ProjectsPage() {
           {loading ? (
             <div className="ops-empty">正在載入專案...</div>
           ) : filteredRows.length === 0 ? (
-            <div className="ops-empty">沒有符合條件的專案。</div>
+            <div className="ops-empty">沒有符合條件的專案</div>
           ) : (
             <div className="ops-table-wrap">
               <table className="ops-table">

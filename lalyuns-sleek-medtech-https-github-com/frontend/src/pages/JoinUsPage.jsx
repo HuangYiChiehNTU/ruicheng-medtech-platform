@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+﻿import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { usePublicSiteContent } from '../content/publicSiteContent'
 import '../styles/landing.css'
@@ -54,7 +54,7 @@ export default function JoinUsPage() {
           {join.reasons.map((reason) => (
             <article className="landing-card" key={reason}>
               <h3>{reason}</h3>
-              <p>你會接觸醫療、工程、設計與資料系統的交會處，和團隊一起把需求變成可用流程。</p>
+              <p>你會接觸醫療、工程、設計與資料系統的交會處，和團隊一起把需求變成可用流程</p>
             </article>
           ))}
         </div>

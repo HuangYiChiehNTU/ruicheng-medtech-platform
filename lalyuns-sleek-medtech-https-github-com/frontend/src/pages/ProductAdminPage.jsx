@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from 'react'
+﻿import { useCallback, useEffect, useMemo, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import api from '../api/client'
 import useAuthStore from '../store/authStore'
@@ -142,7 +142,7 @@ export default function ProductAdminPage() {
       <main className="ops-main">
         <section className="ops-title-row">
           <h1>產品與組件管理</h1>
-          <p>管理套組、BOM、自製/外購來源、供應商資訊，以及外部需求申請。</p>
+          <p>管理套組、BOM、自製/外購來源、供應商資訊，以及外部需求申請</p>
         </section>
 
         <section className="product-admin-grid">

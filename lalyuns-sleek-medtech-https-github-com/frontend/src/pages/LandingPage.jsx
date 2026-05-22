@@ -1,4 +1,4 @@
-import { Suspense, useCallback, useEffect, useMemo, useRef, useState } from 'react'
+﻿import { Suspense, useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { Canvas, useFrame, useLoader, useThree } from '@react-three/fiber'
 import { Link } from 'react-router-dom'
 import { OrbitControls as ThreeOrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
@@ -22,24 +22,24 @@ export default function LandingPage() {
     {
       number: '01',
       label: '3D Modeling',
-      title: '把臨床需求變成可看的模型。',
-      text: '以公開視覺展示模型方向，讓醫師、醫院與製造端快速對齊。',
+      title: '模型，一眼看懂',
+      text: '用公開模型快速對齊醫師、醫院與製造端',
       points: ['模型溝通', '術前討論', '製造協作'],
       image: imageItems[0],
     },
     {
       number: '02',
       label: 'Surgical Support',
-      title: '手術輔助器材與固定方向。',
-      text: '聚焦導引、定位與固定概念；詳細尺寸、材料與版本留在內部系統。',
-      points: ['導引輔具', '固定器材料', '骨釘方向'],
+      title: '輔具，清楚討論',
+      text: '導引、定位與固定概念公開說明，細節留在內部系統',
+      points: ['導引輔具', '固定材料', '骨釘方向'],
       image: imageItems[1],
     },
     {
       number: '03',
       label: 'Recovery',
-      title: '延伸到術後恢復與追蹤。',
-      text: '用簡潔圖片說明復健模型、恢復輔助與後續溝通的應用場景。',
+      title: '追蹤，持續溝通',
+      text: '用簡潔圖片說明恢復輔助與追蹤場景',
       points: ['術後恢復', '病患理解', '追蹤溝通'],
       image: imageItems[3],
     },
@@ -55,35 +55,65 @@ export default function LandingPage() {
     <main className="landing-page">
       <PublicNav brand={content.brand} logoUrl={content.logoUrl} logoAlt={content.logoAlt} />
 
-      <section className="landing-hero" data-scroll-scene>
+      <section className="landing-hero nable-hero" data-scroll-scene data-nb-section="hero">
+        <MedtechBubbleField />
         <div className="landing-hero__copy">
           <p className="landing-kicker">{landing.heroKicker}</p>
-          <h1>骨科 3D 客製化醫療科技。</h1>
-          <p>用模型、材料與數位流程，讓醫療器材開發更容易被理解與訂購。</p>
+          <h1>睿程生醫</h1>
+          <p>用 3D 模型、材料證據與可追溯流程，讓客製化醫療器材從需求到簽核都更清楚</p>
           <div className="landing-actions">
-            <Link className="landing-button landing-button--primary" to="/order">產品訂購</Link>
-            <Link className="landing-button landing-button--secondary" to="/showcase">觀看展示</Link>
-            <Link className="landing-button landing-button--ghost" to="/login">內部系統登入</Link>
+            <Link className="landing-button landing-button--primary" to="/showcase">探索展示</Link>
+            <Link className="landing-button landing-button--ghost" to="/order">產品訂購</Link>
           </div>
         </div>
-        <div className="landing-hero__visual" aria-hidden="true">
-          {landing.heroImageUrl ? (
-            <img className="landing-hero__image" src={landing.heroImageUrl} alt={landing.heroImageAlt} />
-          ) : (
-            <div className="landing-device">
-              <span />
-              <span />
-              <span />
-            </div>
-          )}
+        <div className="landing-scroll-cue" aria-hidden="true">
+          <span>向下捲動</span>
+          <i />
         </div>
       </section>
 
       <section className="landing-statement" data-scroll-scene>
-        <p>從術前規劃、手術輔具到術後恢復，睿程生醫用公開展示建立信任；細節資料留在受權限保護的內部系統。</p>
+        <p>模型版本、材料、回饋、報告與 BOM，集中在同一條可追溯證據鏈</p>
       </section>
 
-      <section className="product-story">
+      <section className="landing-showcase-track" data-showcase-track data-scroll-scene>
+        <div className="landing-showcase-panel">
+          <div className="landing-showcase-counter" aria-hidden="true">01</div>
+          {featuredStories.map((story, index) => (
+            <article
+              className={`landing-showcase-slide${index === 0 ? ' is-active' : ''}`}
+              data-showcase-slide
+              key={story.number}
+            >
+              <div className="landing-showcase-copy">
+                <p className="landing-kicker">{story.label}</p>
+                <h2>{story.title}</h2>
+                <p>{story.text}</p>
+                <ul>
+                  {story.points.map((point) => <li key={point}>{point}</li>)}
+                </ul>
+                <Link className="landing-button landing-button--white-ghost" to={index === 0 ? '/showcase' : '/catalog'}>
+                  了解更多
+                </Link>
+              </div>
+              <VisualSurface item={story.image} tone={index + 1} />
+            </article>
+          ))}
+          <nav className="landing-showcase-dots" aria-label="展示段落">
+            {featuredStories.map((story, index) => (
+              <button
+                className={index === 0 ? 'is-active' : ''}
+                data-showcase-dot
+                type="button"
+                aria-label={`${story.label} ${story.title}`}
+                key={story.number}
+              />
+            ))}
+          </nav>
+        </div>
+      </section>
+
+      <section className="product-story product-story--legacy">
         {featuredStories.map((story) => (
           <article className="product-story-card" data-scroll-scene key={story.number}>
             <VisualSurface item={story.image} tone={Number(story.number)} />
@@ -102,10 +132,10 @@ export default function LandingPage() {
 
       <section className="impact-strip" data-scroll-scene>
         {[
-          ['3D', '模型展示'],
-          ['BOM', '登入後查看'],
-          ['LINE', '帳號申請入口'],
-          ['Order', '簡化訂購'],
+          ['3D', '模型協作'],
+          ['BOM', '成本與材料'],
+          ['Trace', '版本溯源'],
+          ['Sign', '簽核留痕'],
         ].map(([value, label]) => (
           <article key={value}>
             <strong>{value}</strong>
@@ -117,7 +147,7 @@ export default function LandingPage() {
       <section className="landing-final-cta" data-scroll-scene>
         <div>
           <p className="landing-kicker">Ready</p>
-          <h2>查看展示，或直接送出產品訂購。</h2>
+          <h2>公開展示建立信任，內部系統管理版本變更</h2>
         </div>
         <div>
           <Link className="landing-button landing-button--primary" to="/showcase">觀看展示</Link>
@@ -128,7 +158,7 @@ export default function LandingPage() {
       <section className="landing-section landing-compare compact" id="access">
         <div className="landing-section__heading">
           <p className="landing-kicker">Access</p>
-          <h2>公開看方向，內部看細節。</h2>
+          <h2>公開看方向，內部看細節</h2>
         </div>
         <div className="compare-grid">
           {[
@@ -164,6 +194,151 @@ function VisualSurface({ item, tone = 0 }) {
   )
 }
 
+function MedtechBubbleField() {
+  const hostRef = useRef(null)
+
+  useEffect(() => {
+    const host = hostRef.current
+    if (!host) return undefined
+
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)')
+    const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true })
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2))
+    renderer.setClearColor(0xffffff, 0)
+    renderer.domElement.className = 'landing-bubble-canvas'
+    renderer.domElement.setAttribute('aria-hidden', 'true')
+    host.appendChild(renderer.domElement)
+
+    const scene = new THREE.Scene()
+    const camera = new THREE.PerspectiveCamera(45, 1, 0.1, 80)
+    camera.position.z = 15
+
+    scene.add(new THREE.AmbientLight(0xffffff, 1.25))
+    const cyan = new THREE.PointLight(0x70e8ff, 8, 36)
+    cyan.position.set(-5, -2, 8)
+    scene.add(cyan)
+    const violet = new THREE.PointLight(0x8f7bff, 6, 34)
+    violet.position.set(5, 5, 7)
+    scene.add(violet)
+    const warm = new THREE.PointLight(0xffe8c7, 3.4, 26)
+    warm.position.set(1, 7, 10)
+    scene.add(warm)
+
+    const geometry = new THREE.SphereGeometry(1, 32, 32)
+    const colors = [0x7dd3fc, 0x8b5cf6, 0x22d3ee, 0xd8b4fe, 0xfde68a, 0x93c5fd]
+    const bubbles = Array.from({ length: window.innerWidth < 760 ? 26 : 58 }, (_, index) => {
+      const radius = 0.055 + Math.random() * 0.28
+      const material = new THREE.MeshPhysicalMaterial({
+        color: colors[index % colors.length],
+        transparent: true,
+        opacity: 0.25 + Math.random() * 0.32,
+        roughness: 0.05,
+        metalness: 0,
+        transmission: 0.35,
+        thickness: 0.9,
+        clearcoat: 1,
+        clearcoatRoughness: 0.05,
+      })
+      const bubble = new THREE.Mesh(geometry, material)
+      bubble.scale.setScalar(radius)
+      bubble.position.set((Math.random() - 0.5) * 18, -7 - Math.random() * 13, (Math.random() - 0.5) * 5)
+      bubble.userData = {
+        radius,
+        speed: 0.18 + Math.random() * 0.62,
+        wobble: 0.35 + Math.random() * 1.1,
+        phase: Math.random() * Math.PI * 2,
+        opacity: material.opacity,
+      }
+      scene.add(bubble)
+      return bubble
+    })
+
+    let frame = 0
+    let last = performance.now()
+    let mx = 0
+    let my = 0
+    let targetX = 0
+    let targetY = 0
+
+    const resize = () => {
+      const rect = host.getBoundingClientRect()
+      const width = Math.max(1, rect.width || window.innerWidth)
+      const height = Math.max(1, rect.height || window.innerHeight)
+      renderer.setSize(width, height, false)
+      camera.aspect = width / height
+      camera.updateProjectionMatrix()
+    }
+
+    const onPointerMove = (event) => {
+      targetX = (event.clientX / window.innerWidth - 0.5) * 1.8
+      targetY = (event.clientY / window.innerHeight - 0.5) * -1.1
+    }
+
+    const tick = (now) => {
+      frame = window.requestAnimationFrame(tick)
+      const delta = Math.min((now - last) / 1000, 0.05)
+      last = now
+      mx += (targetX - mx) * 0.045
+      my += (targetY - my) * 0.045
+      camera.position.x += (mx - camera.position.x) * 0.04
+      camera.position.y += (my - camera.position.y) * 0.04
+      camera.lookAt(0, 0, 0)
+
+      bubbles.forEach((bubble, index) => {
+        const data = bubble.userData
+        bubble.position.y += data.speed * delta
+        bubble.position.x += Math.sin(now * 0.0007 * data.wobble + data.phase) * delta * 0.42
+        bubble.rotation.x += delta * 0.08
+        bubble.rotation.y += delta * 0.12
+        bubble.material.opacity = data.opacity * (0.82 + Math.sin(now * 0.001 + index) * 0.12)
+        if (bubble.position.y > 8.4) {
+          bubble.position.y = -8.6 - Math.random() * 4
+          bubble.position.x = (Math.random() - 0.5) * 18
+          bubble.position.z = (Math.random() - 0.5) * 5
+        }
+      })
+
+      renderer.render(scene, camera)
+    }
+
+    resize()
+    window.addEventListener('resize', resize, { passive: true })
+    window.addEventListener('pointermove', onPointerMove, { passive: true })
+    if (!reduceMotion.matches) frame = window.requestAnimationFrame(tick)
+    else renderer.render(scene, camera)
+
+    return () => {
+      if (frame) window.cancelAnimationFrame(frame)
+      window.removeEventListener('resize', resize)
+      window.removeEventListener('pointermove', onPointerMove)
+      bubbles.forEach((bubble) => {
+        bubble.material.dispose()
+        scene.remove(bubble)
+      })
+      geometry.dispose()
+      renderer.dispose()
+      renderer.domElement.remove()
+    }
+  }, [])
+
+  return (
+    <div className="landing-bubble-field" ref={hostRef} aria-hidden="true">
+      {Array.from({ length: 22 }, (_, index) => (
+        <span
+          className="landing-css-bubble"
+          key={index}
+          style={{
+            '--bubble-left': `${(index * 37) % 94 + 2}%`,
+            '--bubble-top': `${(index * 29) % 86 + 4}%`,
+            '--bubble-size': `${14 + ((index * 17) % 46)}px`,
+            '--bubble-delay': `${(index % 8) * -0.7}s`,
+          }}
+        />
+      ))}
+    </div>
+  )
+}
+
 function useScrollDrivenMotion() {
   useEffect(() => {
     const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)')
@@ -171,6 +346,27 @@ function useScrollDrivenMotion() {
 
     let frame = 0
     const clamp = (value) => Math.min(1, Math.max(0, value))
+    const updateShowcase = () => {
+      const tracks = document.querySelectorAll('[data-showcase-track]')
+      tracks.forEach((track) => {
+        const slides = Array.from(track.querySelectorAll('[data-showcase-slide]'))
+        const dots = Array.from(track.querySelectorAll('[data-showcase-dot]'))
+        const counter = track.querySelector('.landing-showcase-counter')
+        if (!slides.length) return
+
+        const rect = track.getBoundingClientRect()
+        const scrollable = track.offsetHeight - window.innerHeight
+        const raw = scrollable > 0 ? clamp(-rect.top / scrollable) : 0
+        const activeIndex = Math.min(slides.length - 1, Math.floor(raw * slides.length))
+
+        slides.forEach((slide, index) => {
+          slide.classList.toggle('is-active', index === activeIndex)
+          slide.classList.toggle('is-before', index < activeIndex)
+        })
+        dots.forEach((dot, index) => dot.classList.toggle('is-active', index === activeIndex))
+        if (counter) counter.textContent = `0${activeIndex + 1}`
+      })
+    }
 
     const update = () => {
       frame = 0
@@ -182,6 +378,7 @@ function useScrollDrivenMotion() {
         scene.style.setProperty('--scroll-progress', progress.toFixed(3))
         scene.toggleAttribute('data-scene-active', progress > 0.08 && progress < 0.92)
       })
+      updateShowcase()
     }
 
     const requestUpdate = () => {
@@ -190,11 +387,24 @@ function useScrollDrivenMotion() {
     }
 
     update()
+    const dotClickCleanups = Array.from(document.querySelectorAll('[data-showcase-track]')).flatMap((track) => {
+      const dots = Array.from(track.querySelectorAll('[data-showcase-dot]'))
+      const onClicks = dots.map((dot, index) => {
+        const onClick = () => {
+          const scrollable = track.offsetHeight - window.innerHeight
+          window.scrollTo({ top: track.offsetTop + (index / dots.length) * scrollable + 1, behavior: 'smooth' })
+        }
+        dot.addEventListener('click', onClick)
+        return () => dot.removeEventListener('click', onClick)
+      })
+      return onClicks
+    })
     window.addEventListener('scroll', requestUpdate, { passive: true })
     window.addEventListener('resize', requestUpdate)
 
     return () => {
       if (frame) window.cancelAnimationFrame(frame)
+      dotClickCleanups.forEach((cleanup) => cleanup())
       window.removeEventListener('scroll', requestUpdate)
       window.removeEventListener('resize', requestUpdate)
     }
@@ -218,7 +428,7 @@ export function PublicShowcasePage() {
         <div className="landing-section__heading">
           <p className="landing-kicker">Showcase</p>
           <h1>3D 模型與靜態產品展示</h1>
-          <p>這裡集中放公開可看的產品概念展示；詳細材料參數、模型版本、報告與稽核紀錄仍需登入內部系統。</p>
+          <p>這裡集中放公開可看的產品概念展示；詳細材料參數、模型版本、報告與稽核紀錄仍需登入內部系統</p>
         </div>
       </section>
 
@@ -398,14 +608,14 @@ function PublicProductViewer({ models }) {
           <button type="button" className="public-3d-zoom__reset" onClick={resetModelView}>
             重設視角與大小
           </button>
-          <p>可拖曳旋轉、滾輪縮放，也可以用滑桿控制公開模型大小。</p>
+          <p>可拖曳旋轉、滾輪縮放，也可以用滑桿控制公開模型大小</p>
         </div>
         <div className="public-3d-note">
           <strong>公開展示範圍</strong>
           <span>
             {activeModel.modelUrl
-              ? `目前顯示公開上傳模型${activeModel.fileName ? `：${activeModel.fileName}` : ''}。詳細材料與版本資料仍需登入內部系統。`
-              : '可旋轉、縮放與切換概念模型。詳細幾何、材料與版本資料需登入內部系統。'}
+              ? `目前顯示公開上傳模型${activeModel.fileName ? `：${activeModel.fileName}` : ''}詳細材料與版本資料仍需登入內部系統`
+              : '可旋轉、縮放與切換概念模型詳細幾何、材料與版本資料需登入內部系統'}
           </span>
         </div>
       </aside>

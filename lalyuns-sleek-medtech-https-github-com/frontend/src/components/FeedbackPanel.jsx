@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+﻿import { useEffect, useState } from 'react'
 import api from '../api/client'
 
 const STATUS_LABELS = { submitted: '已提出', converted: '已轉需求' }
@@ -43,13 +43,13 @@ export default function FeedbackPanel({ projectId, versionId, canWrite = true, c
     setFeedbacks((items) => items.filter((item) => item.feedback_id !== feedbackId))
   }
 
-  if (!versionId) return <p style={{ color: '#475569', fontSize: 13 }}>請先選擇版本。</p>
+  if (!versionId) return <p style={{ color: '#475569', fontSize: 13 }}>請先選擇版本</p>
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
       <div style={{ flex: 1, overflowY: 'auto', marginBottom: 10 }}>
         {feedbacks.length === 0 ? (
-          <p style={{ color: '#475569', fontSize: 13 }}>目前沒有回饋。</p>
+          <p style={{ color: '#475569', fontSize: 13 }}>目前沒有回饋</p>
         ) : feedbacks.map((feedback) => {
           const canChange = canModerate || feedback.author_id === currentUserId
           return (

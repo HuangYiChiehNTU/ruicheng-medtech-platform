@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react'
+﻿import { useEffect, useMemo, useState } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import ReactFlow, { Background, Controls, MiniMap, MarkerType, Position, useEdgesState, useNodesState } from 'reactflow'
 import 'reactflow/dist/style.css'
@@ -218,7 +218,7 @@ export default function TraceabilityPage() {
         <div style={{ position: 'relative', minHeight: 0 }}>
           {versions.length === 0 ? (
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%', color: '#64748b' }}>
-              目前沒有模型版本可供溯源。
+              目前沒有模型版本可供溯源
             </div>
           ) : (
             <ReactFlow
@@ -277,7 +277,7 @@ function MiniStat({ label, value, color }) {
 }
 
 function NodeDetails({ node }) {
-  if (!node) return <p style={{ color: '#64748b', fontSize: 13 }}>選擇節點查看詳細資料。</p>
+  if (!node) return <p style={{ color: '#64748b', fontSize: 13 }}>選擇節點查看詳細資料</p>
 
   const data = node.data || {}
   const rows = [

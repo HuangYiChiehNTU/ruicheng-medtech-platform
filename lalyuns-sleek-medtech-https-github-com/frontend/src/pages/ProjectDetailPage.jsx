@@ -1,4 +1,4 @@
-import { lazy, Suspense, useCallback, useEffect, useMemo, useRef, useState } from 'react'
+﻿import { lazy, Suspense, useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import AuditPanel from '../components/AuditPanel'
 import BOMPanel from '../components/BOMPanel'
@@ -247,8 +247,8 @@ export default function ProjectDetailPage() {
           setUploadForm({ material_id: '', parent_version_id: '', description: '', file: null })
           await refreshVersions()
           await refreshWorkspace()
-          if (status.status === 'FAILED') showStatus('上傳處理失敗，請檢查 worker 紀錄。', 'error')
-          if (status.status === 'DONE') showStatus('上傳完成，版本清單已更新。', 'success')
+          if (status.status === 'FAILED') showStatus('上傳處理失敗，請檢查 worker 紀錄', 'error')
+          if (status.status === 'DONE') showStatus('上傳完成，版本清單已更新', 'success')
         }
       }, 1500)
     } catch (error) {
@@ -273,7 +273,7 @@ export default function ProjectDetailPage() {
       setActiveVersion(data)
       setVersions((items) => items.map((version) => (version.version_id === data.version_id ? data : version)))
       setSignoffForm({ reason: '', password: '' })
-      showStatus('版本已完成簽核並鎖定。', 'success')
+      showStatus('版本已完成簽核並鎖定', 'success')
     } catch (error) {
       showStatus(error.response?.data?.detail || '簽核失敗', 'error')
     } finally {
@@ -330,15 +330,15 @@ export default function ProjectDetailPage() {
               <h2 style={panelTitle}>待辦工作</h2>
               <TaskList
                 tasks={[
-                  ...draftVersions.map((version) => ({ key: `draft-${version.version_id}`, tone: '#fbbf24', title: `v${version.version_number} 尚未簽核`, detail: version.description || '請確認版本內容後簽核或重新上傳。' })),
+                  ...draftVersions.map((version) => ({ key: `draft-${version.version_id}`, tone: '#fbbf24', title: `v${version.version_number} 尚未簽核`, detail: version.description || '請確認版本內容後簽核或重新上傳' })),
                   ...pendingFeedbacks.slice(0, 4).map((feedback) => ({ key: `feedback-${feedback.feedback_id}`, tone: '#22c55e', title: `v${feedback.version_number} 有待處理回饋`, detail: feedback.content })),
-                  ...missingReports.map((type) => ({ key: `report-${type}`, tone: '#f87171', title: `缺少${REPORT_TYPE_LABELS[type]}`, detail: '請補上報告並連結到目前版本的溯源鏈。' })),
+                  ...missingReports.map((type) => ({ key: `report-${type}`, tone: '#f87171', title: `缺少${REPORT_TYPE_LABELS[type]}`, detail: '請補上報告並連結到目前版本的溯源鏈' })),
                 ]}
               />
             </div>
             <div style={panelStyle}>
               <h2 style={panelTitle}>最近活動</h2>
-              {recentActivities.length === 0 ? <Empty text="目前沒有活動紀錄。" /> : (
+              {recentActivities.length === 0 ? <Empty text="目前沒有活動紀錄" /> : (
                 <div style={{ display: 'grid', gap: 8 }}>
                   {recentActivities.map((item) => (
                     <div key={item.key} style={{ border: '1px solid #dbe3ef', borderRadius: 8, padding: 10, background: '#f8fafc' }}>
@@ -354,7 +354,7 @@ export default function ProjectDetailPage() {
 
           <div style={panelStyle}>
             <h2 style={panelTitle}>版本清單</h2>
-            {versions.length === 0 ? <Empty text="目前沒有模型版本，請先上傳 STL。" /> : (
+            {versions.length === 0 ? <Empty text="目前沒有模型版本，請先上傳 STL" /> : (
               <VersionList versions={versions} activeVersion={activeVersion} setActiveVersion={setActiveVersion} />
             )}
           </div>
@@ -365,7 +365,7 @@ export default function ProjectDetailPage() {
         <div className="project-upload-grid">
           <form onSubmit={uploadVersion} style={panelStyle}>
             <h2 style={panelTitle}>上傳 STL 版本</h2>
-            <div style={noticeStyle}>模型版本必須透過 STL 上傳建立，不提供手動建立版本；系統會自動計算 hash、體積並送入 worker。</div>
+            <div style={noticeStyle}>模型版本必須透過 STL 上傳建立，不提供手動建立版本；系統會自動計算 hash、體積並送入 worker</div>
             <label style={labelStyle}>材料</label>
             <select required value={uploadForm.material_id} onChange={(event) => setUploadForm((form) => ({ ...form, material_id: event.target.value }))} style={fieldStyle}>
               <option value="">選擇材料</option>
@@ -396,16 +396,16 @@ export default function ProjectDetailPage() {
             <h2 style={panelTitle}>上傳檢查表</h2>
             <Checklist
               items={[
-                ['材料已選擇', Boolean(uploadForm.material_id), '模型版本必須綁定合法啟用材料。'],
-                ['父版本已確認', true, uploadForm.parent_version_id ? '將建立版本溯源關係。' : '第一版或無需繼承時可留空。'],
-                ['版本說明已填寫', Boolean(uploadForm.description.trim()), '建議描述幾何或製程變更，利於稽核閱讀。'],
-                ['STL 檔案已選擇', Boolean(uploadForm.file), '僅接受 STL，最大檔案將分塊上傳。'],
-                ['Worker 狀態', !uploading, uploading ? uploadMessage : '待上傳後啟動 hash、合併、體積解析與儲存。'],
+                ['材料已選擇', Boolean(uploadForm.material_id), '模型版本必須綁定合法啟用材料'],
+                ['父版本已確認', true, uploadForm.parent_version_id ? '將建立版本溯源關係' : '第一版或無需繼承時可留空'],
+                ['版本說明已填寫', Boolean(uploadForm.description.trim()), '建議描述幾何或製程變更，利於稽核閱讀'],
+                ['STL 檔案已選擇', Boolean(uploadForm.file), '僅接受 STL，最大檔案將分塊上傳'],
+                ['Worker 狀態', !uploading, uploading ? uploadMessage : '待上傳後啟動 hash、合併、體積解析與儲存'],
               ]}
             />
             <div style={{ marginTop: 18 }}>
               <h3 style={{ ...panelTitle, fontSize: 16 }}>版本鏈</h3>
-              {versions.length === 0 ? <Empty text="上傳後的版本會顯示在這裡。" /> : <VersionList versions={versions} activeVersion={activeVersion} setActiveVersion={setActiveVersion} />}
+              {versions.length === 0 ? <Empty text="上傳後的版本會顯示在這裡" /> : <VersionList versions={versions} activeVersion={activeVersion} setActiveVersion={setActiveVersion} />}
             </div>
           </div>
         </div>
@@ -507,7 +507,7 @@ function PendingFeedbackEditor({ projectId, versionId, onSaved }) {
   if (!pendingPoint) {
     return (
       <div style={{ marginBottom: 14, padding: 12, borderRadius: 8, background: '#f8fafc', border: '1px dashed #cfd9e8', color: '#66758f', fontSize: 12, lineHeight: 1.5 }}>
-        在 3D 模型上點選位置後，這裡會開啟註記編輯器；3D 區域只保留定位 pin。
+        在 3D 模型上點選位置後，這裡會開啟註記編輯器；3D 區域只保留定位 pin
       </div>
     )
   }
@@ -548,7 +548,7 @@ function PendingFeedbackEditor({ projectId, versionId, onSaved }) {
         style={{ ...fieldStyle, minHeight: 98, resize: 'vertical', boxSizing: 'border-box' }}
       />
       <div style={{ display: 'flex', justifyContent: 'space-between', gap: 8, alignItems: 'center' }}>
-        <span style={{ color: '#66758f', fontSize: 11 }}>橘色 pin 會停在你點選的模型座標。</span>
+        <span style={{ color: '#66758f', fontSize: 11 }}>橘色 pin 會停在你點選的模型座標</span>
         <div style={{ display: 'flex', gap: 8 }}>
           <button type="button" onClick={cancel} style={smallGhostButton}>取消</button>
           <button type="button" onClick={save} disabled={!text.trim()} style={{ ...smallGhostButton, background: text.trim() ? '#2f63e6' : '#d7e0eb', borderColor: text.trim() ? '#2f63e6' : '#d7e0eb', color: text.trim() ? '#fff' : '#5b6b82', fontWeight: 800 }}>儲存</button>
@@ -559,7 +559,7 @@ function PendingFeedbackEditor({ projectId, versionId, onSaved }) {
 }
 
 function TaskList({ tasks }) {
-  if (tasks.length === 0) return <Empty text="目前沒有待辦事項。" />
+  if (tasks.length === 0) return <Empty text="目前沒有待辦事項" />
   return (
     <div style={{ display: 'grid', gap: 8 }}>
       {tasks.slice(0, 8).map((task) => (
@@ -591,7 +591,7 @@ function Checklist({ items }) {
 }
 
 function VersionList({ versions, activeVersion, setActiveVersion }) {
-  if (versions.length === 0) return <Empty text="目前沒有版本。" />
+  if (versions.length === 0) return <Empty text="目前沒有版本" />
   return (
     <div style={{ display: 'grid', gap: 8 }}>
       {versions.map((version) => (
@@ -622,7 +622,7 @@ function VersionList({ versions, activeVersion, setActiveVersion }) {
 
 function ProductBOMTable({ product }) {
   if (!product) {
-    return <Empty text="這個專案尚未連結產品套組，因此只會顯示 STL 材料與額外成本。" />
+    return <Empty text="這個專案尚未連結產品套組，因此只會顯示 STL 材料與額外成本" />
   }
 
   const componentCost = product.bom_items.reduce((sum, item) => {

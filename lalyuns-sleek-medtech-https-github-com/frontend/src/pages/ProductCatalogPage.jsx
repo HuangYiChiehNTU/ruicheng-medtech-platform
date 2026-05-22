@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from 'react'
+﻿import { useCallback, useEffect, useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
 import api from '../api/client'
 
@@ -86,14 +86,14 @@ export default function ProductCatalogPage() {
       <main className="ops-main catalog-layout">
         <section className="ops-title-row">
           <h1>產品目錄</h1>
-          <p>外部使用者可查看 3D 產品、圖片產品、材料本身與術後恢復相關項目。若要直接訂購，請使用簡化訂購入口。</p>
+          <p>外部使用者可查看 3D 產品、圖片產品、材料本身與術後恢復相關項目若要直接訂購，請使用簡化訂購入口</p>
           <Link className="catalog-order-entry" to="/order">前往產品訂購頁</Link>
         </section>
 
         <section className="ops-panel catalog-filter-panel">
           <div>
             <strong>器材查詢</strong>
-            <span>依使用部位、臨床用途或適應症快速找出相關醫材。</span>
+            <span>依使用部位、臨床用途或適應症快速找出相關醫材</span>
           </div>
           <input value={filters.q} onChange={(event) => setCatalogFilter('q', event.target.value)} placeholder="搜尋下顎、重建、術中固定..." />
           <div className="catalog-filter-row">
@@ -111,7 +111,7 @@ export default function ProductCatalogPage() {
               <span>{products.length} 件結果</span>
             </div>
             <div className="catalog-products">
-              {products.length === 0 && <div className="ops-empty">找不到符合條件的器材。</div>}
+              {products.length === 0 && <div className="ops-empty">找不到符合條件的器材</div>}
               {products.map((product) => (
                 <button
                   key={product.product_id}
@@ -181,7 +181,7 @@ export default function ProductCatalogPage() {
             <h2>送出需求申請</h2>
             <span>審核後才會開通系統帳號</span>
           </div>
-          {submitted && <div className="catalog-success">已收到申請，內部窗口會確認規格、報價與帳號權限。</div>}
+          {submitted && <div className="catalog-success">已收到申請，內部窗口會確認規格、報價與帳號權限</div>}
           <form className="catalog-request-form" onSubmit={submitRequest}>
             <select value={selectedId} onChange={(event) => setSelectedId(event.target.value)}>
               {products.map((product) => <option key={product.product_id} value={product.product_id}>{product.name}</option>)}

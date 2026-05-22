@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react'
+﻿import { useCallback, useEffect, useState } from 'react'
 import api from '../api/client'
 
 const ROLE_LABELS = { admin: '系統管理員', engineer: '工程師', doctor: '醫師', vendor: '廠商' }
@@ -47,7 +47,7 @@ export default function ProjectMembersPanel({ projectId }) {
         </select>
         <button style={{ ...buttonStyle, marginTop: 6 }}>新增成員</button>
         <p style={{ color: '#94a3b8', fontSize: 12, lineHeight: 1.5, margin: 0 }}>
-          建議醫師維持唯讀並允許回饋/簽核；工程師使用可編輯；只有專案負責人使用專案管理。
+          建議醫師維持唯讀並允許回饋/簽核；工程師使用可編輯；只有專案負責人使用專案管理
         </p>
       </form>
 
