@@ -1,6 +1,7 @@
-﻿import { useCallback, useEffect, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
 import api from '../api/client'
+import { getPublicFontStack, getPublicHeadingWeight, getPublicPageBackgroundStyle, usePublicSiteContent } from '../content/publicSiteContent'
 
 const PRODUCT_TYPES = [
   { value: 'all', label: '全部產品', hint: '先看所有可訂購項目' },
@@ -18,12 +19,22 @@ const INITIAL_FORM = {
   organization: '',
   phone: '',
   email: '',
-  preferred_contact: '電話',
+  preferred_contact: '',
   delivery_note: '',
   message: '',
 }
 
 export default function ProductOrderPage() {
+  const content = usePublicSiteContent()
+  const { order = {} } = content
+  const publicFontFamily = getPublicFontStack(content.fontFamily)
+  const publicHeadingWeight = getPublicHeadingWeight(content.headingWeight)
+  const contactOptions = useMemo(
+    () => Array.isArray(order.contactOptions) && order.contactOptions.length > 0
+      ? order.contactOptions.filter((option) => String(option).trim())
+      : ['電話', 'LINE', 'Email', '由專人判斷'],
+    [order.contactOptions],
+  )
   const [products, setProducts] = useState([])
   const [selectedType, setSelectedType] = useState('all')
   const [selectedProductId, setSelectedProductId] = useState('')
@@ -51,6 +62,10 @@ export default function ProductOrderPage() {
     return products.filter((product) => (product.product_type || '3d_product') === selectedType)
   }, [products, selectedType])
 
+  const effectivePreferredContact = contactOptions.includes(form.preferred_contact)
+    ? form.preferred_contact
+    : contactOptions[0] || ''
+
   const effectiveSelectedProductId = useMemo(() => {
     if (filteredProducts.some((product) => String(product.product_id) === String(selectedProductId))) return selectedProductId
     return filteredProducts[0] ? String(filteredProducts[0].product_id) : ''
@@ -76,6 +91,7 @@ export default function ProductOrderPage() {
     try {
       await api.post('/catalog/requests', {
         ...form,
+        preferred_contact: effectivePreferredContact,
         product_id: Number(effectiveSelectedProductId),
         quantity,
         request_source: 'web',
@@ -87,7 +103,7 @@ export default function ProductOrderPage() {
       })
       setSubmitted(true)
       setQuantity(1)
-      setForm(INITIAL_FORM)
+      setForm({ ...INITIAL_FORM, preferred_contact: contactOptions[0] || '' })
       window.scrollTo({ top: 0, behavior: 'smooth' })
     } finally {
       setIsSubmitting(false)
@@ -95,13 +111,21 @@ export default function ProductOrderPage() {
   }
 
   return (
-    <div className="order-page">
+    <div
+      className="order-page"
+      style={{
+        fontFamily: publicFontFamily,
+        '--public-heading-weight': publicHeadingWeight,
+        ...getPublicPageBackgroundStyle(content, 'order')
+      }}
+    >
       <header className="order-topbar">
         <Link className="order-brand" to="/">
           <span>睿</span>
           <strong>睿程生醫股份有限公司</strong>
         </Link>
         <nav>
+          <Link to="/">首頁</Link>
           <Link to="/catalog">產品目錄</Link>
           <Link to="/login">內部登入</Link>
         </nav>
@@ -109,15 +133,15 @@ export default function ProductOrderPage() {
 
       <main className="order-main">
         <section className="order-hero">
-          <p>Product Order</p>
-          <h1>簡單三步驟，送出產品訂購需求</h1>
-          <span>選產品、選數量、留下電話我們收到後會由專人確認規格、交期與報價</span>
+          <p>{order.heroKicker}</p>
+          <h1>{order.heroTitle}</h1>
+          <span>{order.heroIntro}</span>
         </section>
 
         {submitted && (
           <section className="order-success" role="status">
-            <strong>訂單已送出</strong>
-            <span>我們會用您選擇的聯絡方式確認產品、數量、交期與後續付款或開立報價流程</span>
+            <strong>{order.successTitle}</strong>
+            <span>{order.successText}</span>
           </section>
         )}
 
@@ -126,8 +150,8 @@ export default function ProductOrderPage() {
             <div className="order-step__heading">
               <span>1</span>
               <div>
-                <h2>選擇產品類型</h2>
-                <p>公司可以販售 3D 產品、圖片展示產品，也可以直接販售材料本身</p>
+                <h2>{order.stepTypeTitle}</h2>
+                <p>{order.stepTypeIntro}</p>
               </div>
             </div>
             <div className="order-type-grid">
@@ -149,12 +173,12 @@ export default function ProductOrderPage() {
             <div className="order-step__heading">
               <span>2</span>
               <div>
-                <h2>選擇要訂購的產品</h2>
-                <p>點一下產品卡即可選取若不確定，選最接近的品項並在備註說明</p>
+                <h2>{order.stepProductTitle}</h2>
+                <p>{order.stepProductIntro}</p>
               </div>
             </div>
             <div className="order-products">
-              {filteredProducts.length === 0 && <div className="order-empty">目前此分類沒有公開可訂購產品</div>}
+              {filteredProducts.length === 0 && <div className="order-empty">{order.emptyText}</div>}
               {filteredProducts.map((product) => (
                 <button
                   key={product.product_id}
@@ -163,20 +187,20 @@ export default function ProductOrderPage() {
                   onClick={() => setSelectedProductId(String(product.product_id))}
                 >
                   <div className="order-product__image">
-                    {product.image_url ? <img src={product.image_url} alt={product.name} /> : <span>{TYPE_LABELS[product.product_type] || '產品'}</span>}
+                    {product.image_url ? <ProductMedia url={product.image_url} name={product.name} /> : <span className="order-product__placeholder" aria-hidden="true" />}
                   </div>
                   <div>
                     <span>{TYPE_LABELS[product.product_type] || '3D 產品'}</span>
                     <strong>{product.name}</strong>
-                    <p>{product.senior_note || product.description || '可由專人協助確認產品細節'}</p>
+                    <p>{product.senior_note || product.description || '可由專人協助確認產品細節。'}</p>
                   </div>
                 </button>
               ))}
             </div>
             <div className="order-quantity">
               <div>
-                <strong>訂購數量</strong>
-                <span>可先填預估數量，專人會再次確認</span>
+                <strong>{order.quantityTitle}</strong>
+                <span>{order.quantityHint}</span>
               </div>
               <button type="button" onClick={() => adjustQuantity(-1)} aria-label="減少數量">-</button>
               <output>{quantity}</output>
@@ -188,8 +212,8 @@ export default function ProductOrderPage() {
             <div className="order-step__heading">
               <span>3</span>
               <div>
-                <h2>留下聯絡資料</h2>
-                <p>電話是必填，Email 可不填這樣年長使用者也能直接完成訂購</p>
+                <h2>{order.stepContactTitle}</h2>
+                <p>{order.stepContactIntro}</p>
               </div>
             </div>
             <div className="order-form-grid">
@@ -211,11 +235,8 @@ export default function ProductOrderPage() {
               </label>
               <label>
                 希望聯絡方式
-                <select value={form.preferred_contact} onChange={(event) => updateForm('preferred_contact', event.target.value)}>
-                  <option>電話</option>
-                  <option>LINE</option>
-                  <option>Email</option>
-                  <option>由專人判斷</option>
+                <select value={effectivePreferredContact} onChange={(event) => updateForm('preferred_contact', event.target.value)}>
+                  {contactOptions.map((option) => <option key={option}>{option}</option>)}
                 </select>
               </label>
               <label>
@@ -228,11 +249,20 @@ export default function ProductOrderPage() {
               </label>
             </div>
             <button className="order-submit" type="submit" disabled={!effectiveSelectedProductId || isSubmitting}>
-              {isSubmitting ? '送出中...' : '送出產品訂單'}
+              {isSubmitting ? order.submittingLabel : order.submitLabel}
             </button>
           </section>
         </form>
       </main>
     </div>
+  )
+}
+
+function ProductMedia({ url, name }) {
+  const isVideo = url.startsWith('data:video') || /\.(mp4|webm|mov|m4v)(\?|$)/i.test(url)
+  return isVideo ? (
+    <video src={url} title={name} autoPlay muted loop playsInline />
+  ) : (
+    <img src={url} alt={name} />
   )
 }

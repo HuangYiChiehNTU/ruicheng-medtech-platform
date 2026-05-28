@@ -31,10 +31,18 @@ const REQUEST_SOURCE_LABELS = {
   linebot: 'LINE Bot',
 }
 
+const JOIN_APPLICATION_LABELS = {
+  submitted: '新申請',
+  reviewing: '審核中',
+  contacted: '已聯繫',
+  archived: '已封存',
+}
+
 export default function ProductAdminPage() {
   const [products, setProducts] = useState([])
   const [components, setComponents] = useState([])
   const [requests, setRequests] = useState([])
+  const [joinApplications, setJoinApplications] = useState([])
   const [selectedProductId, setSelectedProductId] = useState('')
   const [productForm, setProductForm] = useState({
     name: '',
@@ -55,14 +63,16 @@ export default function ProductAdminPage() {
   const { logout } = useAuthStore()
 
   const refresh = useCallback(async () => {
-    const [productsResponse, componentsResponse, requestsResponse] = await Promise.all([
+    const [productsResponse, componentsResponse, requestsResponse, joinApplicationsResponse] = await Promise.all([
       api.get('/products'),
       api.get('/components'),
       api.get('/product-requests'),
+      api.get('/join-us/applications'),
     ])
     setProducts(productsResponse.data)
     setComponents(componentsResponse.data)
     setRequests(requestsResponse.data)
+    setJoinApplications(joinApplicationsResponse.data)
     setSelectedProductId((current) => {
       if (productsResponse.data.some((product) => String(product.product_id) === String(current))) return current
       return productsResponse.data[0] ? String(productsResponse.data[0].product_id) : ''
@@ -125,6 +135,26 @@ export default function ProductAdminPage() {
     await refresh()
   }
 
+  const updateJoinApplicationStatus = async (applicationId, status) => {
+    await api.put(`/join-us/applications/${applicationId}`, { status })
+    await refresh()
+  }
+
+  const uploadProductMedia = (file) => {
+    if (!file) return
+    if (!file.type.startsWith('image/') && !file.type.startsWith('video/')) {
+      window.alert('產品展示素材請上傳圖片或影片檔。')
+      return
+    }
+
+    const reader = new FileReader()
+    reader.onload = () => {
+      setProductForm((value) => ({ ...value, image_url: reader.result }))
+    }
+    reader.onerror = () => window.alert('產品展示素材讀取失敗，請重新選擇。')
+    reader.readAsDataURL(file)
+  }
+
   return (
     <div className="ops-page">
       <header className="ops-topbar">
@@ -158,7 +188,16 @@ export default function ProductAdminPage() {
               <input value={productForm.surgical_stage} onChange={(event) => setProductForm((value) => ({ ...value, surgical_stage: event.target.value }))} placeholder="使用階段，例如術中固定" />
             </div>
             <input value={productForm.clinical_use} onChange={(event) => setProductForm((value) => ({ ...value, clinical_use: event.target.value }))} placeholder="臨床用途" />
-            <input value={productForm.image_url} onChange={(event) => setProductForm((value) => ({ ...value, image_url: event.target.value }))} placeholder="產品展示圖片 URL" />
+            <input value={productForm.image_url} onChange={(event) => setProductForm((value) => ({ ...value, image_url: event.target.value }))} placeholder="產品展示圖片 / 影片 URL" />
+            <label className="ops-file-field">
+              上傳產品展示圖片 / 影片
+              <input type="file" accept="image/*,video/*" onChange={(event) => uploadProductMedia(event.target.files?.[0])} />
+            </label>
+            {productForm.image_url && (
+              <button type="button" onClick={() => setProductForm((value) => ({ ...value, image_url: '' }))}>
+                移除產品展示素材
+              </button>
+            )}
             <textarea value={productForm.description} onChange={(event) => setProductForm((value) => ({ ...value, description: event.target.value }))} placeholder="對外描述" />
             <textarea value={productForm.senior_note} onChange={(event) => setProductForm((value) => ({ ...value, senior_note: event.target.value }))} placeholder="老人友善簡短說明，例如：電話確認後再付款" />
             <textarea value={productForm.indication} onChange={(event) => setProductForm((value) => ({ ...value, indication: event.target.value }))} placeholder="適應症 / 使用情境" />
@@ -276,6 +315,55 @@ export default function ProductAdminPage() {
                     <td>
                       <select value={request.status} onChange={(event) => updateRequestStatus(request.request_id, event.target.value)}>
                         {Object.entries(REQUEST_LABELS).map(([value, label]) => <option key={value} value={value}>{label}</option>)}
+                      </select>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <section className="ops-table-panel">
+          <div className="ops-section-heading">
+            <h2>加入我們申請</h2>
+            <span>{joinApplications.length} 筆</span>
+          </div>
+          <div className="ops-table-wrap">
+            <table className="ops-table">
+              <thead>
+                <tr>
+                  <th>申請人</th>
+                  <th>身份</th>
+                  <th>感興趣方向</th>
+                  <th>自我介紹</th>
+                  <th>聯絡</th>
+                  <th>狀態</th>
+                  <th>更新</th>
+                </tr>
+              </thead>
+              <tbody>
+                {joinApplications.map((application) => (
+                  <tr key={application.application_id}>
+                    <td>
+                      {application.name}
+                      {application.portfolio_url && (
+                        <div className="ops-muted">
+                          <a href={application.portfolio_url} target="_blank" rel="noreferrer">履歷 / 作品集</a>
+                        </div>
+                      )}
+                    </td>
+                    <td>{application.applicant_type || '-'}</td>
+                    <td>{application.interest}</td>
+                    <td><div className="ops-muted preserve-lines">{application.intro}</div></td>
+                    <td>
+                      {application.email}
+                      <div className="ops-muted">{application.phone || '未提供電話'}</div>
+                    </td>
+                    <td><span className="ops-status info">{JOIN_APPLICATION_LABELS[application.status]}</span></td>
+                    <td>
+                      <select value={application.status} onChange={(event) => updateJoinApplicationStatus(application.application_id, event.target.value)}>
+                        {Object.entries(JOIN_APPLICATION_LABELS).map(([value, label]) => <option key={value} value={value}>{label}</option>)}
                       </select>
                     </td>
                   </tr>

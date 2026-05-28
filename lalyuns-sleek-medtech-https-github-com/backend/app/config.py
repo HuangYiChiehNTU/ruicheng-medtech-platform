@@ -25,6 +25,8 @@ class Settings(BaseSettings):
     JWT_ALGORITHM: str = "HS256"
     JWT_EXPIRE_HOURS: int = 8
     DATABASE_URL: Optional[str] = None
+    OPENAI_API_KEY: Optional[str] = None
+    OPENAI_MODEL: str = "gpt-5.4-mini"
 
     @property
     def SQLALCHEMY_DATABASE_URL(self) -> str:

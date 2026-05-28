@@ -1,4 +1,4 @@
-﻿import { lazy, Suspense } from 'react'
+import { lazy, Suspense, useEffect } from 'react'
 import { BrowserRouter, Routes, Route, Navigate, Link, useLocation } from 'react-router-dom'
 import useAuthStore from './store/authStore'
 
@@ -48,6 +48,7 @@ function toArray(value) {
 export default function App() {
   return (
     <BrowserRouter>
+      <ScrollToTop />
       <Suspense fallback={<PageLoading />}>
         <Routes>
           <Route path="/" element={<LandingPage />} />
@@ -73,6 +74,17 @@ export default function App() {
   )
 }
 
+function ScrollToTop() {
+  const { pathname, hash } = useLocation()
+
+  useEffect(() => {
+    if (hash) return
+    window.scrollTo({ top: 0, left: 0, behavior: 'instant' })
+  }, [pathname, hash])
+
+  return null
+}
+
 function PermissionDenied() {
   return (
     <div style={{ minHeight: '100vh', display: 'grid', placeItems: 'center', padding: 24, background: '#0f172a', color: '#e2e8f0' }}>
@@ -80,7 +92,7 @@ function PermissionDenied() {
         <p style={{ margin: '0 0 10px', color: '#60a5fa', fontWeight: 800 }}>High Privilege Required</p>
         <h1 style={{ margin: '0 0 12px', fontSize: 32 }}>此後台僅開放高權限帳號</h1>
         <p style={{ margin: '0 0 22px', color: '#94a3b8', lineHeight: 1.7 }}>
-          請使用系統管理員帳號登入，或請管理員調整資料庫中的使用者角色
+          請使用系統管理員帳號登入，或請管理員調整資料庫中的使用者角色。
         </p>
         <Link to="/projects" style={{ color: '#bfdbfe', fontWeight: 700 }}>返回內部系統</Link>
       </div>
