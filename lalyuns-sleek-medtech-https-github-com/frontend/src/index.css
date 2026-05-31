@@ -635,6 +635,29 @@ button {
   line-height: 1.7;
 }
 
+.catalog-public-boundary {
+  display: grid;
+  gap: 8px;
+  margin-top: 18px;
+  padding: 16px;
+  border: 1px solid #d8e2ee;
+  border-radius: 8px;
+  background: #f8fbff;
+}
+
+.catalog-public-boundary strong {
+  color: #0f172a;
+  font-size: 16px;
+  font-weight: 850;
+}
+
+.catalog-public-boundary p {
+  margin: 0;
+  color: #5b6b82;
+  font-size: 15px;
+  line-height: 1.7;
+}
+
 .public-catalog-page {
   color: #0f172a;
 }
@@ -743,6 +766,7 @@ button {
 .public-catalog-page .catalog-product span,
 .public-catalog-page .catalog-product p,
 .public-catalog-page .catalog-selected-summary p,
+.public-catalog-page .catalog-public-boundary p,
 .public-catalog-page .ops-context-grid span,
 .public-catalog-page .ops-table td {
   color: #697386;

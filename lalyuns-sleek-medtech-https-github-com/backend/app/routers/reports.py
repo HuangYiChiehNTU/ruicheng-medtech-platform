@@ -68,8 +68,8 @@ def upload_report(
         event_type="file.report_uploaded",
         target_type="report",
         target_id=report.report_id,
-        summary=f"上傳報告：{name}",
-        payload_json={"report_type": report_type, "file_name": safe_name},
+        summary=f"上傳文件：{report.name}",
+        payload_json={"report_type": report.report_type},
     )
     db.commit()
     db.refresh(report)

@@ -47,8 +47,8 @@
 .public-brand img {
   width: 32px;
   height: 32px;
-  border-radius: 6px;
-  object-fit: contain;
+  border-radius: 50%;
+  object-fit: cover;
 }
 
 .public-nav nav {
@@ -1675,10 +1675,9 @@
   width: 54px;
   height: 54px;
   margin-left: 8px;
-  padding: 7px;
   border-radius: 999px;
   background: #eef7ff;
-  object-fit: contain;
+  object-fit: cover;
 }
 
 .public-nav nav {

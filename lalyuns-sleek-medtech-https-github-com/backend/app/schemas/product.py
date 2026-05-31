@@ -85,16 +85,6 @@ class ProductDetailOut(ProductOut):
     bom_items: List[ProductBOMItemOut] = Field(default_factory=list)
 
 
-class PublicComponentOut(BaseModel):
-    name: str
-    source_type: str
-    quantity: float
-    unit: str
-    is_critical: bool
-    requires_certificate: bool
-    note: Optional[str]
-
-
 class PublicProductOut(BaseModel):
     product_id: int
     name: str
@@ -108,7 +98,6 @@ class PublicProductOut(BaseModel):
     image_url: Optional[str] = None
     senior_note: Optional[str] = None
     order_enabled: bool = True
-    bom_items: List[PublicComponentOut] = Field(default_factory=list)
 
 
 class ProductRequestCreate(BaseModel):

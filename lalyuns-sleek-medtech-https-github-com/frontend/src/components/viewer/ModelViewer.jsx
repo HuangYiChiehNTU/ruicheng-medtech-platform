@@ -1,4 +1,4 @@
-﻿import { Suspense, useEffect, useState, useMemo, useRef, Component } from 'react'
+import { Suspense, useEffect, useState, useMemo, useRef, Component } from 'react'
 import { Canvas, useFrame, useLoader, useThree } from '@react-three/fiber'
 import { STLLoader } from 'three/examples/jsm/loaders/STLLoader.js'
 import { OrbitControls as ThreeOrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
@@ -32,7 +32,7 @@ class ViewerErrorBoundary extends Component {
     if (this.state.error) {
       return (
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%', color: '#64748b', fontSize: 13 }}>
-          無法載入 3D 模型
+          無法載入 3D 模型。
         </div>
       )
     }
@@ -233,7 +233,7 @@ export default function ModelViewer({ fileUrl, projectId, versionId, canWriteFee
           <div style={{ position: 'absolute', inset: 0, zIndex: 5, display: 'flex', alignItems: 'center', justifyContent: 'center', pointerEvents: 'none' }}>
             <div style={{ background: 'rgba(15, 23, 42, 0.86)', border: '1px solid #334155', borderRadius: 8, padding: 18, color: '#cbd5e1', textAlign: 'center', maxWidth: 320 }}>
               <strong style={{ color: '#f1f5f9' }}>尚未載入 STL</strong>
-              <div style={{ fontSize: 13, marginTop: 6 }}>上傳模型版本後即可檢視真實幾何，並使用剖面與註記功能</div>
+              <div style={{ fontSize: 13, marginTop: 6 }}>上傳模型版本後即可檢視真實幾何，並使用剖面與註記功能。</div>
             </div>
           </div>
         )}

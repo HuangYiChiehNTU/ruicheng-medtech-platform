@@ -157,7 +157,7 @@ export const defaultPublicSiteContent = {
     searchTitle: '器材查詢',
     searchHint: '依使用部位、臨床用途或適應症快速找出相關醫材。',
     searchPlaceholder: '搜尋下顎、重建、術中固定...',
-    resultsTitle: '產品與組件',
+    resultsTitle: '公開產品項目',
     emptyText: '找不到符合條件的器材。',
     selectedFallbackTitle: '產品內容',
     orderProductLabel: '訂購這類產品',

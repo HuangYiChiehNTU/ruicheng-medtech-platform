@@ -3,13 +3,6 @@ import { Link } from 'react-router-dom'
 import api from '../api/client'
 import { getPublicFontStack, getPublicHeadingWeight, getPublicPageBackgroundStyle, usePublicSiteContent } from '../content/publicSiteContent'
 
-const SOURCE_LABELS = {
-  self_made: '自製',
-  purchased: '外購',
-  outsourced: '委外',
-  customer_supplied: '客供',
-}
-
 const PRODUCT_TYPE_LABELS = {
   '3d_product': '3D 產品',
   image_product: '圖片產品',
@@ -143,7 +136,7 @@ export default function ProductCatalogPage() {
           <div className="ops-table-panel">
             <div className="ops-section-heading">
               <h2>{selectedProduct?.name || catalog.selectedFallbackTitle}</h2>
-              <span>{selectedProduct?.bom_items?.length || 0} 件組成</span>
+              <span>公開展示資料</span>
             </div>
             {selectedProduct && (
               <div className="ops-context-grid">
@@ -161,30 +154,12 @@ export default function ProductCatalogPage() {
                 <Link to="/order">{catalog.orderProductLabel}</Link>
               </div>
             )}
-            <div className="ops-table-wrap">
-              <table className="ops-table">
-                <thead>
-                  <tr>
-                    <th>組件</th>
-                    <th>來源</th>
-                    <th>數量</th>
-                    <th>文件</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {(selectedProduct?.bom_items || []).map((item) => (
-                    <tr key={`${item.name}-${item.source_type}`}>
-                      <td>
-                        {item.name}
-                        {item.note && <div className="ops-muted">{item.note}</div>}
-                      </td>
-                      <td><span className={`ops-status ${item.source_type === 'self_made' ? 'info' : 'warning'}`}>{SOURCE_LABELS[item.source_type]}</span></td>
-                      <td>{item.quantity} {item.unit}</td>
-                      <td>{item.requires_certificate ? '需文件' : '不需文件'}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
+            <div className="catalog-public-boundary">
+              <strong>公開網站僅提供總覽資訊</strong>
+              <p>
+                BOM、材料成本、製造參數、模型版本、報告與稽核紀錄屬於內部醫材版本控制系統，
+                需登入並取得權限後才可查看。
+              </p>
             </div>
           </div>
         </section>

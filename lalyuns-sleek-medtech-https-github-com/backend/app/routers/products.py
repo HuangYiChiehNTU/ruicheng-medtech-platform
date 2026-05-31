@@ -29,7 +29,6 @@ from app.schemas.product import (
     ProductRequestOut,
     ProductRequestUpdate,
     ProductUpdate,
-    PublicComponentOut,
     PublicProductOut,
 )
 
@@ -141,36 +140,23 @@ def public_catalog(
     if indication:
         query = query.filter(Product.indication.like(f"%{indication.strip()}%"))
     products = query.order_by(Product.product_id).all()
-    output = []
-    for product in products:
-        detail = _product_detail(db, product)
-        output.append(PublicProductOut(
-            product_id=detail.product_id,
-            name=detail.name,
-            sku=detail.sku,
-            description=detail.description,
-            body_region=detail.body_region,
-            clinical_use=detail.clinical_use,
-            surgical_stage=detail.surgical_stage,
-            indication=detail.indication,
-            product_type=detail.product_type,
-            image_url=detail.image_url,
-            senior_note=detail.senior_note,
-            order_enabled=detail.order_enabled,
-            bom_items=[
-                PublicComponentOut(
-                    name=item.component.name,
-                    source_type=item.component.source_type,
-                    quantity=item.quantity,
-                    unit=item.unit,
-                    is_critical=item.component.is_critical,
-                    requires_certificate=item.component.requires_certificate,
-                    note=item.note,
-                )
-                for item in detail.bom_items
-            ],
-        ))
-    return output
+    return [
+        PublicProductOut(
+            product_id=product.product_id,
+            name=product.name,
+            sku=product.sku,
+            description=product.description,
+            body_region=product.body_region,
+            clinical_use=product.clinical_use,
+            surgical_stage=product.surgical_stage,
+            indication=product.indication,
+            product_type=product.product_type,
+            image_url=product.image_url,
+            senior_note=product.senior_note,
+            order_enabled=product.order_enabled,
+        )
+        for product in products
+    ]
 
 
 @router.post("/catalog/requests", response_model=ProductRequestOut, status_code=status.HTTP_201_CREATED)

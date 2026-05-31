@@ -98,7 +98,7 @@ def lock_version(
         event_type="file.signed_off",
         target_type="model_version",
         target_id=version.version_id,
-        summary=f"簽核模型版本 v{version.version_number}",
+        summary=f"簽核 3D 模型 v{version.version_number}",
         payload_json={"reason": version.signoff_reason},
     )
     db.commit()
@@ -186,7 +186,6 @@ def _build_bom(project_id: int, version_id: int, db: Session) -> BOMOut:
             Product.product_id == project.product_id,
             Product.is_deleted == False,
         ).first()
-
     material = db.query(Material).filter(
         Material.material_id == version.material_id,
         Material.is_deleted == False,

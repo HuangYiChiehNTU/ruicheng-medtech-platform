@@ -86,11 +86,11 @@ def init_upload(
         event_type="file.upload_started",
         target_type="model_version",
         target_id=version.version_id,
-        summary=f"開始上傳 3D 模型 v{next_number}",
+        summary=f"開始上傳 3D 模型 v{version.version_number}",
         payload_json={
-            "material_id": material_id,
             "hash_value": hash_value,
-            "total_chunks": total_chunks,
+            "material_id": material_id,
+            "parent_version_id": parent_version_id,
         },
     )
     db.commit()

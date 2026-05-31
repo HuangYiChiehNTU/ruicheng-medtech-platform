@@ -15,6 +15,7 @@ const TraceabilityPage = lazy(() => import('./pages/TraceabilityPage'))
 const AdminMaterialsPage = lazy(() => import('./pages/AdminMaterialsPage'))
 const AdminUsersPage = lazy(() => import('./pages/AdminUsersPage'))
 const AdminAuditPage = lazy(() => import('./pages/AdminAuditPage'))
+const SettingsPage = lazy(() => import('./pages/SettingsPage'))
 const PublicSiteAdminPage = lazy(() => import('./pages/PublicSiteAdminPage'))
 
 function PrivateRoute({ children }) {
@@ -59,6 +60,7 @@ export default function App() {
           <Route path="/careers" element={<Navigate to="/join-us" replace />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/projects" element={<PrivateRoute><ProjectsPage /></PrivateRoute>} />
+          <Route path="/settings" element={<PrivateRoute><SettingsPage /></PrivateRoute>} />
           <Route path="/projects/:id" element={<PrivateRoute><ProjectDetailPage /></PrivateRoute>} />
           <Route path="/projects/:id/traceability" element={<PrivateRoute><TraceabilityPage /></PrivateRoute>} />
           <Route path="/admin/materials" element={<PrivateRoute><AdminMaterialsPage /></PrivateRoute>} />

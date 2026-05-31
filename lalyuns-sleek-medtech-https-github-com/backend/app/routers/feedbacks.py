@@ -86,7 +86,7 @@ def create_feedback(
         event_type="comment.created",
         target_type="feedback",
         target_id=feedback.feedback_id,
-        summary="新增醫師回饋",
+        summary="新增模型回饋",
         payload_json={"version_id": version_id},
     )
     db.commit()
