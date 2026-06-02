@@ -1,12 +1,18 @@
 import { Link } from 'react-router-dom'
+import { useEffect } from 'react'
 import { getPublicFontStack, getPublicHeadingWeight, getPublicPageBackgroundStyle, usePublicSiteContent } from '../content/publicSiteContent'
+import { internalPlatformLinks } from '../config/platformLinks'
 
 export default function LoginPage() {
   const content = usePublicSiteContent()
   const { login: loginContent = {} } = content
   const publicFontFamily = getPublicFontStack(content.fontFamily)
   const publicHeadingWeight = getPublicHeadingWeight(content.headingWeight)
-  const internalPlatformUrl = import.meta.env.VITE_INTERNAL_PLATFORM_URL || ''
+  const internalPlatformUrl = internalPlatformLinks.login || internalPlatformLinks.home
+
+  useEffect(() => {
+    if (internalPlatformUrl) window.location.replace(internalPlatformUrl)
+  }, [internalPlatformUrl])
 
   return (
     <div

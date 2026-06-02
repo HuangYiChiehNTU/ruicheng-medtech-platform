@@ -1,8 +1,9 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
-import api from '../api/client'
+import api, { readPlatformApi } from '../api/client'
 import { getPublicFontStack, getPublicHeadingWeight, getPublicPageBackgroundStyle, usePublicSiteContent } from '../content/publicSiteContent'
 import exportedProducts from '../content/exportedProducts.json'
+import { internalPlatformLinks } from '../config/platformLinks'
 
 const PRODUCT_TYPE_LABELS = {
   '3d_product': '3D 產品',
@@ -31,7 +32,7 @@ export default function ProductCatalogPage() {
     const query = params.toString()
     let nextProducts = []
     try {
-      const response = await api.get(`/catalog/products${query ? `?${query}` : ''}`)
+      const response = await readPlatformApi.get(`/catalog/products${query ? `?${query}` : ''}`)
       nextProducts = response.data
     } catch {
       const q = String(filters.q || '').trim().toLowerCase()
@@ -95,6 +96,24 @@ export default function ProductCatalogPage() {
   }
 
   const hasActiveFilter = Object.values(filters).some((value) => value.trim())
+  const catalogHref = internalPlatformLinks.catalog
+  const loginHref = internalPlatformLinks.login || '/login'
+
+  useEffect(() => {
+    if (catalogHref) window.location.replace(catalogHref)
+  }, [catalogHref])
+
+  if (catalogHref) {
+    return (
+      <div className="ops-page public-catalog-page" style={{ display: 'grid', placeItems: 'center', minHeight: '100vh', fontFamily: publicFontFamily }}>
+        <div className="ops-panel" style={{ maxWidth: 520 }}>
+          <h1>正在前往朋友的雲端平台產品型錄</h1>
+          <p>產品資料將由雲端平台提供，官網只作為入口。</p>
+          <a className="ops-primary" href={catalogHref}>立即前往產品型錄</a>
+        </div>
+      </div>
+    )
+  }
 
   return (
     <div
@@ -113,7 +132,7 @@ export default function ProductCatalogPage() {
         <nav className="ops-nav">
           <Link to="/">首頁</Link>
           <Link to="/order">直接訂購</Link>
-          <Link to="/login">內部登入</Link>
+          <a href={loginHref} target={internalPlatformLinks.login ? '_blank' : undefined} rel={internalPlatformLinks.login ? 'noreferrer' : undefined}>內部登入</a>
         </nav>
       </header>
 

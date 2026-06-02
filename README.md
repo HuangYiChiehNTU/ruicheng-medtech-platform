@@ -66,25 +66,56 @@ ruicheng-cms
 
 ### `VITE_INTERNAL_PLATFORM_URL`
 
-內部雲端平台登入入口。
+朋友維護的內部雲端平台網址。
 
-官網 `/login` 會引導使用者前往這個網址。
+官網的「登入」會直接連到這個平台。
 
-### `VITE_INTERNAL_PLATFORM_API_BASE`
+### `VITE_INTERNAL_PLATFORM_LOGIN_PATH`
 
-朋友維護的內部雲端平台 API base URL。
-
-若有設定，官網會嘗試讀：
+內部平台登入路徑，預設為：
 
 ```text
-{VITE_INTERNAL_PLATFORM_API_BASE}/api/v1/public-site-content
-{VITE_INTERNAL_PLATFORM_API_BASE}/api/v1/catalog/products
-{VITE_INTERNAL_PLATFORM_API_BASE}/api/v1/catalog/requests
-{VITE_INTERNAL_PLATFORM_API_BASE}/api/v1/join-us/applications
-{VITE_INTERNAL_PLATFORM_API_BASE}/api/v1/public-ai/chat
+/login
 ```
 
-若沒有設定或 API 尚未開放，官網會使用打包進專案的 CMS 內容與公開產品資料。
+也可以直接設定 `VITE_INTERNAL_PLATFORM_LOGIN_URL` 覆蓋完整登入網址。
+
+### `VITE_INTERNAL_PLATFORM_CATALOG_PATH`
+
+朋友平台產品型錄路徑，預設為：
+
+```text
+/catalog
+```
+
+也可以直接設定 `VITE_INTERNAL_PLATFORM_CATALOG_URL` 覆蓋完整產品型錄網址。
+
+### `VITE_INTERNAL_PLATFORM_READ_API_BASE`
+
+朋友維護的內部雲端平台公開讀取 API base URL。
+
+官網只會用這個 API 讀資料，不會用它儲存官網 CMS、訂單或 Join Us 表單。
+
+目前官網會嘗試讀：
+
+```text
+{VITE_INTERNAL_PLATFORM_READ_API_BASE}/api/v1/catalog/products
+```
+
+若沒有設定或 API 尚未開放，官網會使用打包進專案的公開產品資料。
+
+### `VITE_PUBLIC_SITE_API_BASE`
+
+你的官網自己的後端 API base URL。
+
+這裡才是用來儲存：
+
+- 官網 CMS 內容
+- 訂單 / 詢問表單
+- Join Us 申請
+- AI 小睿的正式模型 API
+
+如果尚未設定，官網會先用打包內容與瀏覽器 localStorage 作為 fallback。
 
 ## 內建內容來源
 

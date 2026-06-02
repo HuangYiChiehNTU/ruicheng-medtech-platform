@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import api from '../api/client'
 import { getPublicFontStack, getPublicHeadingWeight, getPublicPageBackgroundStyle, usePublicSiteContent } from '../content/publicSiteContent'
+import { internalPlatformLinks } from '../config/platformLinks'
 import '../styles/landing.css'
 
 export default function JoinUsPage() {
@@ -12,6 +13,7 @@ export default function JoinUsPage() {
   const join = content.join
   const publicFontFamily = getPublicFontStack(content.fontFamily)
   const publicHeadingWeight = getPublicHeadingWeight(content.headingWeight)
+  const loginHref = internalPlatformLinks.login || '/login'
 
   useEffect(() => {
     document.title = join.pageTitle || `加入我們 | ${content.brand}`
@@ -65,7 +67,7 @@ export default function JoinUsPage() {
           <Link to="/">{join.navHomeLabel}</Link>
           <a href="#roles">{join.navRolesLabel}</a>
           <a href="#join-application">{join.navApplicationLabel}</a>
-          <Link to="/login">{join.navLoginLabel}</Link>
+          <a href={loginHref} target={internalPlatformLinks.login ? '_blank' : undefined} rel={internalPlatformLinks.login ? 'noreferrer' : undefined}>{join.navLoginLabel}</a>
         </nav>
       </header>
 
@@ -156,7 +158,7 @@ export default function JoinUsPage() {
         </div>
         <nav>
           <Link to="/">{join.footerHomeLabel}</Link>
-          <Link to="/login">{join.footerLoginLabel}</Link>
+          <a href={loginHref} target={internalPlatformLinks.login ? '_blank' : undefined} rel={internalPlatformLinks.login ? 'noreferrer' : undefined}>{join.footerLoginLabel}</a>
         </nav>
       </footer>
     </main>

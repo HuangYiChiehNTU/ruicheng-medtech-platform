@@ -1,9 +1,16 @@
 import axios from 'axios'
 
-const apiBaseUrl = import.meta.env.VITE_INTERNAL_PLATFORM_API_BASE || ''
+function buildApiBaseUrl(baseUrl) {
+  return baseUrl ? `${String(baseUrl).replace(/\/$/, '')}/api/v1` : '/api/v1'
+}
 
-const api = axios.create({
-  baseURL: apiBaseUrl ? `${apiBaseUrl.replace(/\/$/, '')}/api/v1` : '/api/v1'
+const publicSiteApiBaseUrl = import.meta.env.VITE_PUBLIC_SITE_API_BASE || ''
+const internalPlatformReadApiBaseUrl = import.meta.env.VITE_INTERNAL_PLATFORM_READ_API_BASE || import.meta.env.VITE_INTERNAL_PLATFORM_API_BASE || ''
+
+const api = axios.create({ baseURL: buildApiBaseUrl(publicSiteApiBaseUrl) })
+
+export const readPlatformApi = axios.create({
+  baseURL: buildApiBaseUrl(internalPlatformReadApiBaseUrl)
 })
 
 api.interceptors.request.use((config) => {

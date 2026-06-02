@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 import { OrbitControls as ThreeOrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
 import { STLLoader } from 'three/examples/jsm/loaders/STLLoader.js'
 import * as THREE from 'three'
-import api from '../api/client'
+import api, { readPlatformApi } from '../api/client'
 import {
   defaultPublicSiteContent,
   getPublicFontStack,
@@ -13,6 +13,7 @@ import {
   usePublicSiteContent
 } from '../content/publicSiteContent'
 import exportedProducts from '../content/exportedProducts.json'
+import { internalPlatformLinks } from '../config/platformLinks'
 import '../styles/landing.css'
 
 const MODEL_ZOOM_MIN = 0.6
@@ -52,7 +53,7 @@ export default function LandingPage() {
 
   useEffect(() => {
     let isMounted = true
-    api.get('/catalog/products')
+    readPlatformApi.get('/catalog/products')
       .then((response) => {
         if (isMounted) setAiProducts(Array.isArray(response.data) ? response.data : [])
       })
@@ -537,6 +538,8 @@ export function PublicShowcasePage() {
 
 function PublicNav({ brand, logoUrl, logoAlt, labels }) {
   const nav = { ...defaultPublicSiteContent.navLabels, ...labels }
+  const catalogHref = internalPlatformLinks.catalog || '/catalog'
+  const loginHref = internalPlatformLinks.login || '/login'
   return (
     <header className="public-nav">
       <Link className="public-brand" to="/">
@@ -546,10 +549,10 @@ function PublicNav({ brand, logoUrl, logoAlt, labels }) {
       <nav>
         <Link to="/">{nav.home}</Link>
         <Link to="/showcase">{nav.showcase}</Link>
-        <Link to="/catalog">{nav.catalog}</Link>
+        <a href={catalogHref} target={internalPlatformLinks.catalog ? '_blank' : undefined} rel={internalPlatformLinks.catalog ? 'noreferrer' : undefined}>{nav.catalog}</a>
         <Link to="/order">{nav.order}</Link>
         <Link to="/join-us">{nav.join}</Link>
-        <Link to="/login">{nav.login}</Link>
+        <a href={loginHref} target={internalPlatformLinks.login ? '_blank' : undefined} rel={internalPlatformLinks.login ? 'noreferrer' : undefined}>{nav.login}</a>
       </nav>
     </header>
   )
@@ -868,6 +871,8 @@ function PlanningConcept() {
 
 function Footer({ content }) {
   const nav = { ...defaultPublicSiteContent.navLabels, ...content.navLabels }
+  const catalogHref = internalPlatformLinks.catalog || '/catalog'
+  const loginHref = internalPlatformLinks.login || '/login'
   return (
     <footer className="landing-footer">
       <div>
@@ -877,10 +882,10 @@ function Footer({ content }) {
       <nav>
         <Link to="/">{nav.home}</Link>
         <Link to="/showcase">{nav.showcase}</Link>
-        <Link to="/catalog">{nav.catalog}</Link>
+        <a href={catalogHref} target={internalPlatformLinks.catalog ? '_blank' : undefined} rel={internalPlatformLinks.catalog ? 'noreferrer' : undefined}>{nav.catalog}</a>
         <Link to="/order">{nav.order}</Link>
         <Link to="/join-us">{nav.join}</Link>
-        <Link to="/login">內部系統登入</Link>
+        <a href={loginHref} target={internalPlatformLinks.login ? '_blank' : undefined} rel={internalPlatformLinks.login ? 'noreferrer' : undefined}>內部系統登入</a>
       </nav>
       <p className="disclaimer">
         {content.landing.disclaimer}

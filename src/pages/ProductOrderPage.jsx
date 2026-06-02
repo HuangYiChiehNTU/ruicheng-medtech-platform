@@ -1,8 +1,9 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
-import api from '../api/client'
+import api, { readPlatformApi } from '../api/client'
 import { getPublicFontStack, getPublicHeadingWeight, getPublicPageBackgroundStyle, usePublicSiteContent } from '../content/publicSiteContent'
 import exportedProducts from '../content/exportedProducts.json'
+import { internalPlatformLinks } from '../config/platformLinks'
 
 const PRODUCT_TYPES = [
   { value: 'all', label: '全部產品', hint: '先看所有可訂購項目' },
@@ -47,7 +48,7 @@ export default function ProductOrderPage() {
   const loadProducts = useCallback(async () => {
     let sourceProducts
     try {
-      const response = await api.get('/catalog/products')
+      const response = await readPlatformApi.get('/catalog/products')
       sourceProducts = response.data
     } catch {
       sourceProducts = exportedProducts
@@ -72,6 +73,8 @@ export default function ProductOrderPage() {
   const effectivePreferredContact = contactOptions.includes(form.preferred_contact)
     ? form.preferred_contact
     : contactOptions[0] || ''
+  const catalogHref = internalPlatformLinks.catalog || '/catalog'
+  const loginHref = internalPlatformLinks.login || '/login'
 
   const effectiveSelectedProductId = useMemo(() => {
     if (filteredProducts.some((product) => String(product.product_id) === String(selectedProductId))) return selectedProductId
@@ -139,8 +142,8 @@ export default function ProductOrderPage() {
         </Link>
         <nav>
           <Link to="/">首頁</Link>
-          <Link to="/catalog">產品目錄</Link>
-          <Link to="/login">內部登入</Link>
+          <a href={catalogHref} target={internalPlatformLinks.catalog ? '_blank' : undefined} rel={internalPlatformLinks.catalog ? 'noreferrer' : undefined}>產品目錄</a>
+          <a href={loginHref} target={internalPlatformLinks.login ? '_blank' : undefined} rel={internalPlatformLinks.login ? 'noreferrer' : undefined}>內部登入</a>
         </nav>
       </header>
 
