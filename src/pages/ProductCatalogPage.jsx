@@ -96,24 +96,8 @@ export default function ProductCatalogPage() {
   }
 
   const hasActiveFilter = Object.values(filters).some((value) => value.trim())
-  const catalogHref = internalPlatformLinks.catalog
+  const platformCatalogHref = internalPlatformLinks.catalog
   const loginHref = internalPlatformLinks.login || '/login'
-
-  useEffect(() => {
-    if (catalogHref) window.location.replace(catalogHref)
-  }, [catalogHref])
-
-  if (catalogHref) {
-    return (
-      <div className="ops-page public-catalog-page" style={{ display: 'grid', placeItems: 'center', minHeight: '100vh', fontFamily: publicFontFamily }}>
-        <div className="ops-panel" style={{ maxWidth: 520 }}>
-          <h1>正在前往朋友的雲端平台產品型錄</h1>
-          <p>產品資料將由雲端平台提供，官網只作為入口。</p>
-          <a className="ops-primary" href={catalogHref}>立即前往產品型錄</a>
-        </div>
-      </div>
-    )
-  }
 
   return (
     <div
@@ -132,6 +116,7 @@ export default function ProductCatalogPage() {
         <nav className="ops-nav">
           <Link to="/">首頁</Link>
           <Link to="/order">直接訂購</Link>
+          {platformCatalogHref && <a href={platformCatalogHref} target="_blank" rel="noreferrer">雲端平台型錄</a>}
           <a href={loginHref} target={internalPlatformLinks.login ? '_blank' : undefined} rel={internalPlatformLinks.login ? 'noreferrer' : undefined}>內部登入</a>
         </nav>
       </header>

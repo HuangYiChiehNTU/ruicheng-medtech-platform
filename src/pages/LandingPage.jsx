@@ -538,7 +538,6 @@ export function PublicShowcasePage() {
 
 function PublicNav({ brand, logoUrl, logoAlt, labels }) {
   const nav = { ...defaultPublicSiteContent.navLabels, ...labels }
-  const catalogHref = internalPlatformLinks.catalog || '/catalog'
   const loginHref = internalPlatformLinks.login || '/login'
   const displayLogoUrl = logoUrl || '/images/ruicheng-logo.png'
   return (
@@ -550,7 +549,7 @@ function PublicNav({ brand, logoUrl, logoAlt, labels }) {
       <nav>
         <Link to="/">{nav.home}</Link>
         <Link to="/showcase">{nav.showcase}</Link>
-        <a href={catalogHref} target={internalPlatformLinks.catalog ? '_blank' : undefined} rel={internalPlatformLinks.catalog ? 'noreferrer' : undefined}>{nav.catalog}</a>
+        <Link to="/catalog">{nav.catalog}</Link>
         <Link to="/order">{nav.order}</Link>
         <Link to="/join-us">{nav.join}</Link>
         <a href={loginHref} target={internalPlatformLinks.login ? '_blank' : undefined} rel={internalPlatformLinks.login ? 'noreferrer' : undefined}>{nav.login}</a>
@@ -872,7 +871,6 @@ function PlanningConcept() {
 
 function Footer({ content }) {
   const nav = { ...defaultPublicSiteContent.navLabels, ...content.navLabels }
-  const catalogHref = internalPlatformLinks.catalog || '/catalog'
   const loginHref = internalPlatformLinks.login || '/login'
   return (
     <footer className="landing-footer">
@@ -883,7 +881,7 @@ function Footer({ content }) {
       <nav>
         <Link to="/">{nav.home}</Link>
         <Link to="/showcase">{nav.showcase}</Link>
-        <a href={catalogHref} target={internalPlatformLinks.catalog ? '_blank' : undefined} rel={internalPlatformLinks.catalog ? 'noreferrer' : undefined}>{nav.catalog}</a>
+        <Link to="/catalog">{nav.catalog}</Link>
         <Link to="/order">{nav.order}</Link>
         <Link to="/join-us">{nav.join}</Link>
         <a href={loginHref} target={internalPlatformLinks.login ? '_blank' : undefined} rel={internalPlatformLinks.login ? 'noreferrer' : undefined}>內部系統登入</a>

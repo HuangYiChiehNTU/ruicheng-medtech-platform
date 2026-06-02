@@ -5,7 +5,10 @@ function buildApiBaseUrl(baseUrl) {
 }
 
 const publicSiteApiBaseUrl = import.meta.env.VITE_PUBLIC_SITE_API_BASE || ''
-const internalPlatformReadApiBaseUrl = import.meta.env.VITE_INTERNAL_PLATFORM_READ_API_BASE || import.meta.env.VITE_INTERNAL_PLATFORM_API_BASE || ''
+const internalPlatformReadApiBaseUrl = import.meta.env.VITE_INTERNAL_PLATFORM_READ_API_BASE
+  || import.meta.env.VITE_INTERNAL_PLATFORM_API_BASE
+  || import.meta.env.VITE_INTERNAL_PLATFORM_URL
+  || 'https://platform.iamedical.co'
 
 const api = axios.create({ baseURL: buildApiBaseUrl(publicSiteApiBaseUrl) })
 

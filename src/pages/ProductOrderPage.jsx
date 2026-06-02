@@ -73,7 +73,6 @@ export default function ProductOrderPage() {
   const effectivePreferredContact = contactOptions.includes(form.preferred_contact)
     ? form.preferred_contact
     : contactOptions[0] || ''
-  const catalogHref = internalPlatformLinks.catalog || '/catalog'
   const loginHref = internalPlatformLinks.login || '/login'
 
   const effectiveSelectedProductId = useMemo(() => {
@@ -142,7 +141,7 @@ export default function ProductOrderPage() {
         </Link>
         <nav>
           <Link to="/">首頁</Link>
-          <a href={catalogHref} target={internalPlatformLinks.catalog ? '_blank' : undefined} rel={internalPlatformLinks.catalog ? 'noreferrer' : undefined}>產品目錄</a>
+          <Link to="/catalog">產品目錄</Link>
           <a href={loginHref} target={internalPlatformLinks.login ? '_blank' : undefined} rel={internalPlatformLinks.login ? 'noreferrer' : undefined}>內部登入</a>
         </nav>
       </header>
