@@ -85,7 +85,7 @@ export const defaultPublicSiteContent = {
   siteTitle: '睿程生醫股份有限公司 | 骨科 3D 建模與客製化醫療器材',
   fontFamily: 'modern-sans',
   headingWeight: 'medium',
-  logoUrl: '',
+  logoUrl: '/images/ruicheng-logo.png',
   logoAlt: '睿程生醫股份有限公司 logo',
   pageBackgrounds: PAGE_BACKGROUND_DEFAULTS,
   navLabels: {

@@ -14,6 +14,7 @@ export default function JoinUsPage() {
   const publicFontFamily = getPublicFontStack(content.fontFamily)
   const publicHeadingWeight = getPublicHeadingWeight(content.headingWeight)
   const loginHref = internalPlatformLinks.login || '/login'
+  const displayLogoUrl = content.logoUrl || '/images/ruicheng-logo.png'
 
   useEffect(() => {
     document.title = join.pageTitle || `加入我們 | ${content.brand}`
@@ -60,7 +61,7 @@ export default function JoinUsPage() {
     >
       <header className="public-nav">
         <Link className="public-brand" to="/">
-          {content.logoUrl ? <img src={content.logoUrl} alt={content.logoAlt || content.brand} /> : <span />}
+          <img src={displayLogoUrl} alt={content.logoAlt || content.brand} />
           {content.brand}
         </Link>
         <nav>

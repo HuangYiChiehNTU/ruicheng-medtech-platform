@@ -540,10 +540,11 @@ function PublicNav({ brand, logoUrl, logoAlt, labels }) {
   const nav = { ...defaultPublicSiteContent.navLabels, ...labels }
   const catalogHref = internalPlatformLinks.catalog || '/catalog'
   const loginHref = internalPlatformLinks.login || '/login'
+  const displayLogoUrl = logoUrl || '/images/ruicheng-logo.png'
   return (
     <header className="public-nav">
       <Link className="public-brand" to="/">
-        {logoUrl ? <img src={logoUrl} alt={logoAlt || brand} /> : <span />}
+        <img src={displayLogoUrl} alt={logoAlt || brand} />
         {brand}
       </Link>
       <nav>
